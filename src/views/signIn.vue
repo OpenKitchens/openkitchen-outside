@@ -1,6 +1,7 @@
 <script setup lang="ts">
-//import TheWelcome from '../components/TheWelcome.vue'
+import signIn from '@/components/pages/signIn/signIn.vue'
 </script>
 
 <template>
+  <signIn />
 </template>

@@ -54,9 +54,13 @@ const onPagesChange = (page: string): void => {
 </template>
 
 <style scoped>
+.navbar{
+  background-color: rgb(44, 41, 37) !important;
+  border-bottom: solid 1px #444;
+}
 .container-fluid{
-  margin-left: 70px;
-  margin-right: 70px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 .nav-item {
   display: flex;
@@ -82,5 +86,7 @@ img {
 .form-control{
   border-radius: 50px;
   padding-left: 20px;
+  background-color: rgb(44, 41, 37) !important;
+  border: solid 1px #444;
 }
 </style>

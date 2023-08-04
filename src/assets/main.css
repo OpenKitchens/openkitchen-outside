@@ -1,3 +1,18 @@
 body{
-  background-color: rgb(11, 13, 14);
+  background-color: rgb(11, 12, 12) !important;
+}
+
+.card{
+  background-color: rgb(16, 17, 17) !important;
+}
+
+.list-group-item{
+  background-color: rgb(16, 17, 17) !important;
+  border-color: rgb(45, 46, 46) !important;
+}
+
+.form-control:focus {
+  border: none;
+  outline: 0;
+  box-shadow: none;
 }
