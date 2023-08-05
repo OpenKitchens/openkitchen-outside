@@ -14,9 +14,9 @@ const myBio = ref("")
 const cards = [
   { title: 'さぁ冒険に出よう', text: 'Client鯖はどこですか？Client鯖のwebsocketを入力してください' },
   { title: 'これが本当に君の鯖？', text: 'Client鯖にコールしています' },
-  { title: 'アナタの姿を思い出して', text: 'ユーザー名とパスワードを入力してアカウントを作成してください' },
+  { title: '夏のあの日を思い出して', text: 'ユーザー名とパスワードを入力してアカウントを作成してください' },
   { title: 'もう少しアナタの過去を探索します', text: 'プロフィールでアナタについて教えてください' },
-  { title: 'アナタのサーバーを作成しましょう', text: '自分だけのコミュニティ。広大なネットの中にたったひとつの草の根を' },
+  { title: '自分だけのサーバーを作成しましょう', text: '自分だけのコミュニティ。広大なネットの中にたったひとつの草の根を' },
   { title: 'アカウントを作成しました', text: 'ノスタルジーに逃げ込みたい。草の根WSSへようこそ' },
   // 必要に応じて追加のカードをここに追加
 ];
@@ -99,9 +99,9 @@ const createAccount = () => {
 </script>
 
 <template>
-  <div class="background">
+  <div class="background" data-bs-theme="light">
     <div style="background-color: #0000003f;">
-      <div class="login-container scheme-mode">
+      <div class="login-container">
         <div v-for="(card, index) in cards" :key="index">
           <div class="card fadeUp" v-show="currentCardIndex === index">
             <div class="card-body">
@@ -123,7 +123,7 @@ const createAccount = () => {
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" placeholder="ユーザー名を入力" aria-label="Recipient's username"
                     aria-describedby="basic-addon2" v-model="username">
-                  <span class="input-group-text scheme-mode-disable" id="basic-addon2">@open</span>
+                  <span class="input-group-text" id="basic-addon2">@open</span>
                 </div>
                 <div class="mb-3">
                   <input type="password" id="password" class="form-control" v-model="password" placeholder="パスワードを入力"
@@ -171,7 +171,7 @@ const createAccount = () => {
 
 <style scoped>
 .background {
-  background-image: url("https://tadaup.jp/0401434679.png");
+  background-image: url("https://tadaup.jp/0521482331.png");
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: cover;
@@ -193,6 +193,7 @@ const createAccount = () => {
   border: none;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.75) !important;
 }
 
 .card-body {
@@ -203,6 +204,7 @@ const createAccount = () => {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: rgb(13, 110, 253);
 }
 
 p {

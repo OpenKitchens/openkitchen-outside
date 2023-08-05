@@ -11,7 +11,7 @@ import { useRouter } from 'vue-router';
 
 if(!localStorage.getItem('websocket')){
   const router = useRouter();
-  router.push('/login');
+  router.push('/signIn');
 }
 
 const pages = ref("home")
