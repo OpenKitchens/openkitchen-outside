@@ -7,6 +7,12 @@ import message from '@/components/pages/deck/message.vue';
 import notification from '@/components/pages/deck/notification.vue';
 
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+
+if(!localStorage.getItem('websocket')){
+  const router = useRouter();
+  router.push('/login');
+}
 
 const pages = ref("home")
 
