@@ -1,65 +1,35 @@
 <script setup lang="ts">
-import leftSideBarComponents from "@/components/modules/leftSideBar.vue";
-/*
-import mainContentComponents from "@/assets/atomic/home/mainContentComponents.vue";
-import rightSideBarComponents from "@/assets/atomic/home/rightSideBarComponents.vue";
-*/
-import { reactive } from "vue";
+import leftSideBar from "@/components/modules/leftSideBar.vue";
+import mainContent from "@/components/modules/mainContent.vue";
+import rightSideBar from "@/components/modules/rightSideBar.vue";
+import { reactive, ref } from "vue";
+
 
 //client鯖と通信する用
-const socket = new WebSocket('wss://openkitchenclientserver.openkitchensmoy.repl.co');
+//@ts-ignore
+const socket = new WebSocket(localStorage.getItem('websocket'));
+
+// WebSocketの接続状態を追跡するref
+const socketReady = ref(false);
+
+//UIの構成
+const UI = ref({});
+
 
 socket.onopen = function () {
   console.log('WebSocket接続が確立されました');
-  socket.send('Hello, Server!'); // サーバーにメッセージを送信
+  socket.send(JSON.stringify({type: {renderingEngine: true}})); // サーバーにメッセージを送信
 };
 
 socket.onmessage = function (event) {
-  console.log('サーバーからのメッセージ:', event.data);
-};
+  UI.value = JSON.parse(event.data);
+  console.log(event.data)
+  socketReady.value = true
+}
 
 socket.onclose = function () {
   console.log('WebSocket接続がクローズされました');
 };
-
-
-//初期データ
-const myName = localStorage.getItem("myName");
-const myIcon = localStorage.getItem("myIcon");
-const myHeader = localStorage.getItem("myHeader");
-const myBio = localStorage.getItem("myBio");
-const myID = localStorage.getItem("myHash");
-//@ts-ignore
-let friends = JSON.parse(localStorage.getItem("friends")) || [{ title: "フレンドがいません", image: "icons/warning.svg" }]
-//@ts-ignore
-let servers = JSON.parse(localStorage.getItem("servers")) || [{ title: "サーバーに所属していません。", emoji: "", badge: "" }]
-
-//UIの構成
-const UI = reactive({
-  //OpenDeckのホーム
-  myName: myName,
-  myHash: myID,
-  myIcon: myIcon,
-  myHeader: myHeader,
-  myBio: myBio,
-  friends: friends,
-  servers: servers,
-});
-
-//初期データの格納(自分系・設定画面で実現系)
-localStorage.setItem(
-  "myBio",
-  "Laravel(PHP)とGCPが好きなWebエンジニア。けど業務で使うのはJava/Kotlin系とReact。発言は個人の意見であり組織を代表しません。"
-);
-localStorage.setItem(
-  "myIcon",
-  "https://lh3.googleusercontent.com/a/AAcHTtfJxAxhupV-gaBkzvK52gbXss-IRzj8uk88IIg-aI5fYA=s96-c"
-);
-localStorage.setItem(
-  "myHeader",
-  "https://assets.moguravr.com/uploads/2021/09/202109211455137000.jpg"
-);
-
 
 const timeLine = reactive({
   topThread: {
@@ -117,28 +87,23 @@ const timeLine = reactive({
 </script>
 
 <template>
-  <div class="holy-grail">
-    <header>
-      <headerComponents :myName="(UI.myName as string)" :myHash="(UI.myHash as string)" :myIcon="(UI.myIcon as string)" />
-    </header>
+  <div v-if="socketReady" class="holy-grail">
     <main class="holy-grail__main">
       <!-- Left sidebar -->
       <aside class="holy-grail__left" style="overflow-y: scroll; height: calc(100vh - 50px)">
-        <leftSideBarComponents :myName="(UI.myName as string)" :myHash="(UI.myHash as string)"
+        <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)"
           :myHeader="(UI.myHeader as string)" :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)"
           :friends="UI.friends" :servers="UI.servers" />
       </aside>
 
       <!-- Main content -->
       <article class="holy-grail__middle" style="width: 55%; overflow-y: scroll; height: calc(100vh - 50px)">
-        <mainContentComponents :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
+        <mainContent :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
       </article>
 
       <!-- Right sidebar -->
       <nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">
-        <rightSideBarComponents />
-        <rightSideBarComponents />
-        <rightSideBarComponents />
+        <rightSideBar />
       </nav>
     </main>
     <footer></footer>
