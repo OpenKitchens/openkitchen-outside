@@ -38,7 +38,7 @@ const login = () => {
 
         <div class="card fadeUp">
           <div class="card-body">
-            <h1 class="card-title text-center">お帰りなさい</h1>
+            <h1 class="card-title text-center">お帰りなさい👋</h1>
             <p class="text-center">Systemにログインしましょう</p>
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="ユーザー名を入力" aria-label="Recipient's username"

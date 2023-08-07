@@ -1,5 +1,5 @@
 <template>
-  <div class="card" style="width: calc(100% - 10px);margin: 5px">
+  <div class="card mt-4" style="width: calc(100% - 10px);margin: 5px">
     <div class="card-header">
       月間Truthランキング
     </div>

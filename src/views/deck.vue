@@ -19,7 +19,6 @@ const pages = ref("home")
 const onPagesChange = (page: string): void => {
   pages.value = page
 }
-
 </script>
 <template>
   <Header v-on:pagesChange="onPagesChange"></Header>

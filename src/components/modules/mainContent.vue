@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 defineProps<{
   topThread: {
     background: string;
     icon: string;
+    user: string;
     title: string;
-    preview: string;
     serverEmoji: string;
     server: string;
   };
@@ -23,72 +21,75 @@ defineProps<{
 </script>
 
 <template>
-  <div class="card text-white bg-dark topCard d-lg-none" style="margin-top: 5px; border: solid 1px #eee">
-    <img :src="topThread.background" class="card-img" style="opacity: 0.5" />
-    <div class="card-img-overlay mx-auto">
-      <img :src="topThread.icon" class="rounded-circle other-icon mx-auto d-block" style="margin-bottom: 5px" />
-      <h4 class="card-title text-center">
-        {{ topThread.title }}
-      </h4>
-    </div>
-  </div>
-
-  <div class="card d-none d-lg-block" style="width: 100%; margin-top: 5px">
-    <img :src="topThread.background" class="card-img-top" />
-    <div class="card-body">
-      <h5 class="card-text">{{ topThread.title }}</h5>
-      <p class="card-text">{{ topThread.preview }}</p>
-      <div style="display: flex">
-        <span class="emoji">{{ topThread.serverEmoji }}</span>
-        {{ topThread.server }}
-      </div>
-    </div>
-  </div>
-
-  <ol class="list-group list-group" style="margin-top: 5px">
-    <li class="list-group-item d-flex justify-content-between align-items-start" v-for="thread in threadList">
-      <img :src="thread.icon" class="rounded-circle thread-icon" />
-      <div class="ms-2 me-auto">
-        <div class="fw-bold threadBold">
-          {{ thread.title }}
+  <div class="container mt-4">
+    <div class="card">
+      <img :src="topThread.background" class="card-img-top" style="object-fit: cover; height: 300px;" alt="Sample Image">
+      <div class="card-body">
+        <h5 class="card-title" style="font-size: 27px;">{{ topThread.title }}</h5>
+        <p class="card-text"></p>
+        <div class="d-flex align-items-center">
+          <img :src="topThread.icon" class="rounded-circle me-2 author-icon" alt="User Avatar">
+          <span class="fw-bold">{{ topThread.user }}</span>
         </div>
-        <span class="emoji">{{ thread.serverEmoji }}</span> {{ thread.server }}
       </div>
-      <span class="badge bg-primary rounded-pill">{{ thread.badge }}</span>
-    </li>
-  </ol>
+      <div class="card-footer">
+        <small class="text-muted">{{ topThread.serverEmoji }} {{ topThread.server }}</small>
+        <button class="btn btn-outline-light btn-sm ms-2">サーバに追加</button>
+        <button class="btn btn-sm ms-2"><img src="@/components/icons/reply.svg" class="icons"></button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container mt-3" v-for="thread in threadList">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center thread-author">
+          <img :src="thread.icon" class="rounded-circle me-2 author-icon" alt="User Avatar">
+          <span class="fw-bold author-name">{{ thread.user }}</span>
+        </div>
+        <h5 class="card-title card-title-small" style="font-size: 1.25rem;">{{ thread.title }}</h5>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">{{ thread.serverEmoji }} {{ thread.server }}</small>
+        <a href="#" class="btn btn-outline-light btn-sm ms-2">サーバに追加</a>
+        <a href="#" class="btn btn-sm ms-2"><img src="@/components/icons/reply.svg" class="icons" alt="Reply Icon"></a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
-.other-icon {
-  width: 35px;
-  height: 35px;
+.icons {
+  width: 1.7em;
+  height: 1.7em;
+  filter: invert(100%);
 }
 
-.thread-icon {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+.thread-author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.threadBold {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.author-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
 }
 
-@media (max-width: 960px) {
-  .card-img-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70vw;
-  }
+.author-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
 
-  .threadBold {
-    width: calc(55vw - 20px);
-  }
+.card-title {
+  padding: 15px 30px;
+}
+
+.card-title-small {
+  padding: 10px 20px;
+  margin: 0;
 }
 </style>

@@ -4,7 +4,6 @@ import mainContent from "@/components/modules/mainContent.vue";
 import rightSideBar from "@/components/modules/rightSideBar.vue";
 import { reactive, ref } from "vue";
 
-
 //client鯖と通信する用
 //@ts-ignore
 const socket = new WebSocket(localStorage.getItem('websocket'));
@@ -18,7 +17,7 @@ const UI = ref({});
 
 socket.onopen = function () {
   console.log('WebSocket接続が確立されました');
-  socket.send(JSON.stringify({type: {renderingEngine: true}})); // サーバーにメッセージを送信
+  socket.send(JSON.stringify({ type: { renderingEngine: true } })); // サーバーにメッセージを送信
 };
 
 socket.onmessage = function (event) {
@@ -34,11 +33,9 @@ socket.onclose = function () {
 const timeLine = reactive({
   topThread: {
     background:
-      "https://static.reuters.com/resources/r/?m=02&d=20230704&t=2&i=1637745003&r=LYNXMPEJ63024&w=1600",
-    title: "米メタ、ツイッターのような対話アプリ「Threads」発表へ",
-    preview:
-      "[３日 ロイター] - 米メタ・プラットフォームズは対話アプリ「Threads（スレッズ）」の立ち上げを計画している。\n新アプリは同社の写真共有アプリ、インスタグラムのテキストベースの会話アプリで、６日に発表される予定。ユーザーはインスタグラムでフォローしているアカウントをそのまま引き継ぐことができ、ユーザー名も変わらない。\nツイッター運営会社はここ数日、閲覧数の制限や「TweetDeck（ツイートデック）」の認証制度導入など、さまざまな制限を発表している。\n",
-    user: "9e61633c0c104a64d719e53871538f73688291d3ffd02dff5f55e3ae7de093d0",
+      "https://media.loom-app.com/gizmodo/dist/images/2022/06/21/220622_ps5slim.jpg?w=1280",
+    title: "魔改造でぺったんこになった水冷式｢PlayStation 5 slim｣。薄さなんと2cm",
+    user: "Dirt君",
     icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
     link: "9e61633c0c104a64d719e53871538f73688291d3ffd02dff5f55e3ae7de093d0/米メタ、ツイッターのような対話アプリ「Threads」発表へ",
     serverEmoji: "🎙",
@@ -47,7 +44,7 @@ const timeLine = reactive({
   threadList: [
     {
       title: "【VRChat】自鯖のリンク貼ってけ",
-      user: "52d16e3c0c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0",
+      user: "OpenKitchen",
       icon: "https://lh3.googleusercontent.com/a/AAcHTtfJxAxhupV-gaBkzvK52gbXss-IRzj8uk88IIg-aI5fYA=s96-c",
       serverEmoji: "🍔",
       server: "openkitchen開発部",
@@ -56,7 +53,7 @@ const timeLine = reactive({
     },
     {
       title: "あ、Github落ちた…",
-      user: "12d6e63c0c10ea64d779e58871538f73978291d3ffd72dff5f75e3ae7de07370",
+      user: "Dirt君",
       icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
       serverEmoji: "🐈‍⬛",
       server: "GitHubの民",
@@ -65,7 +62,7 @@ const timeLine = reactive({
     },
     {
       title: "【悲報】GitHubサーバーダウン...",
-      user: "52d16e3c0c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0",
+      user: "OpenKitchen 猫々猫氏",
       icon: "https://neconeconews.com/wp-content/uploads/popcat1_close.png",
       serverEmoji: "🎙",
       server: "雑談サーバー",
@@ -74,7 +71,7 @@ const timeLine = reactive({
     },
     {
       title: "【organization】ワクワク参加レポジトリ",
-      user: "65a1e340c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0",
+      user: "BigSur氏",
       icon: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Finder_Icon_macOS_Big_Sur.png",
       serverEmoji: "🐈‍⬛",
       server: "GitHubの民",
@@ -83,7 +80,6 @@ const timeLine = reactive({
     },
   ],
 });
-
 </script>
 
 <template>
@@ -91,9 +87,9 @@ const timeLine = reactive({
     <main class="holy-grail__main">
       <!-- Left sidebar -->
       <aside class="holy-grail__left" style="overflow-y: scroll; height: calc(100vh - 50px)">
-        <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)"
-          :myHeader="(UI.myHeader as string)" :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)"
-          :friends="UI.friends" :servers="UI.servers" />
+        <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)" :myHeader="(UI.myHeader as string)"
+          :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)" :friends="UI.friends" :servers="UI.servers"
+          @addServer="addServer" />
       </aside>
 
       <!-- Main content -->
@@ -127,7 +123,7 @@ const timeLine = reactive({
 
 .holy-grail__left {
   width: calc(25% - 30px);
-  margin-left: 30px;
+  margin-left: 60px;
 }
 
 .holy-grail__middle {
@@ -136,8 +132,8 @@ const timeLine = reactive({
 }
 
 .holy-grail__right {
-  width: calc(20% - 30px);
-  margin-right: 30px;
+  width: calc(30% - 30px);
+  margin-right: 60px;
 }
 
 .holy-grail__left::-webkit-scrollbar {

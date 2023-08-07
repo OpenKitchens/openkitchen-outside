@@ -9,6 +9,7 @@ const serverIconImage = ref("")
 const servername = ref("")
 const myIconImage = ref("")
 const myHeaderImage = ref("")
+const serverInformation = ref("")
 const myBio = ref("")
 
 const cards = [
@@ -154,6 +155,10 @@ const createAccount = () => {
                   <input type="text" class="form-control" placeholder="サーバー名を入力" aria-label="Recipient's username"
                     aria-describedby="basic-addon3" v-model="servername">
                   <span class="input-group-text scheme-mode-disable" id="basic-addon3">@server</span>
+                </div>
+                <div class="mb-3">
+                  <label for="Bio" class="form-label">serverInformation</label>
+                  <textarea class="form-control" id="Bio" rows="3" v-model="serverInformation"></textarea>
                 </div>
                 <button class="btn btn-primary w-100" type="button" @click="switchNextCardAndPerformAction">Next</button>
               </div>
