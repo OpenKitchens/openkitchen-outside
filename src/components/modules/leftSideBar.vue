@@ -24,7 +24,7 @@ function join() {
       {
         type: { addServer: true },
         socket: serverSocket.value,
-        temporaryId: temporaryId;
+        temporaryId: localStorage.getItem("token")
       }
     )); // サーバーにメッセージを送信
     title.value = "サーバー参加の申請をしました！"
@@ -84,7 +84,7 @@ function join() {
             <span class="input-group-text scheme-mode-disable" id="basic-addon3">@server</span>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="join">サーバーに参加</button>
+            <button type="button" class="btn btn-light" @click="join">サーバーに参加</button>
           </div>
         </div>
       </div>
@@ -124,6 +124,7 @@ function join() {
 .title {
   font-size: 15px;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 
 /* Add your custom CSS styles here */

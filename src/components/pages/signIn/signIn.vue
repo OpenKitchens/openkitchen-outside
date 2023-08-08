@@ -6,6 +6,7 @@ const websocket = ref("")
 const username = ref("")
 const password = ref("")
 const serverIconImage = ref("")
+const serverIcon = ref("")
 const servername = ref("")
 const myIconImage = ref("")
 const myHeaderImage = ref("")
@@ -83,13 +84,19 @@ const createAccount = () => {
       password: password.value,
       socket: websocket.value,
       myIconImage: myIconImage.value,
+      emoji: serverIcon.value,
       myHeaderImage: myHeaderImage.value,
       myBio: myBio.value,
       serverIconImage: serverIconImage.value,
+      serverInformation: serverInformation.value,
       servername: servername.value
     })); // サーバーにメッセージを送信
 
     switchNextCard();
+  }
+
+  socket.onmessage = function (event) {
+    localStorage.setItem("token", event.data)
   }
 
   socket.onclose = function () {
@@ -149,7 +156,11 @@ const createAccount = () => {
 
               <div v-if="index === 4">
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" v-model="serverIconImage" placeholder="サーバーのアイコンをurlで挿入" required>
+                  <input type="text" class="form-control" v-model="serverIconImage" placeholder="サーバーのヘッダーをurlで入力" required>
+                </div>
+                <label for="serverlabel" class="form-label">サーバーの絵文字</label>
+                <div class="input-group mb-3 serverlcon">
+                  <input type="text" class="form-control servericonform" id="serverlabel" v-model="serverIcon" maxlength="1" required>
                 </div>
                 <div class="input-group flex-nowrap mb-3">
                   <input type="text" class="form-control" placeholder="サーバー名を入力" aria-label="Recipient's username"
@@ -157,7 +168,7 @@ const createAccount = () => {
                   <span class="input-group-text scheme-mode-disable" id="basic-addon3">@server</span>
                 </div>
                 <div class="mb-3">
-                  <label for="Bio" class="form-label">serverInformation</label>
+                  <label for="Bio" class="form-label">serverの概要</label>
                   <textarea class="form-control" id="Bio" rows="3" v-model="serverInformation"></textarea>
                 </div>
                 <button class="btn btn-primary w-100" type="button" @click="switchNextCardAndPerformAction">Next</button>
@@ -255,5 +266,18 @@ p {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.servericonform{
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  text-align: center;
+}
+
+.serverlcon{
+  width: 100px;
+  height: 100px;
+  margin: auto;
 }
 </style>

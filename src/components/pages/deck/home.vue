@@ -122,7 +122,7 @@ const timeLine = reactive({
 }
 
 .holy-grail__left {
-  width: calc(25% - 30px);
+  width: calc(27.5% - 30px);
   margin-left: 60px;
 }
 
@@ -132,7 +132,7 @@ const timeLine = reactive({
 }
 
 .holy-grail__right {
-  width: calc(30% - 30px);
+  width: calc(27.5% - 30px);
   margin-right: 60px;
 }
 

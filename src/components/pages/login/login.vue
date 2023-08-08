@@ -20,7 +20,8 @@ const login = () => {
 
   socket.onmessage = function (event) {
     console.log('サーバーからのメッセージ:', event.data);
-    sessionStorage.setItem("uuid", event.data);
+    //sessionStorage.setItem("uuid", event.data);
+    localStorage.setItem("token", event.data);
     window.location.href = "/"
   };
 
