@@ -57,7 +57,7 @@ function join() {
     <ul class="custom-list-unstyled" v-for="server in servers">
       {{ server.emoji }} {{ server.title }}
     </ul>
-    <div class="d-grid gap-2 mx-auto">
+    <div class="d-grid gap-2 mx-auto mt-3">
       <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addserver">サーバーを追加</button>
     </div>
   </div>
@@ -133,20 +133,18 @@ function join() {
   padding-left: 0;
 }
 
-.custom-list-unstyled li {
+.custom-list-unstyled {
   margin-bottom: 5px;
-}
-
-.custom-list-unstyled li a {
-  display: block;
   padding: 5px 10px;
   border-radius: 5px;
-  color: #989898;
-  text-decoration: none;
 }
 
-.custom-list-unstyled li a.active {
-  background-color: #007bff;
+.custom-list-unstyled.active {
+  background-color: rgba(0, 94, 255, 0.5) !important;
+  color: #fff;
+}
+.custom-list-unstyled:hover {
+  background-color: rgba(0, 94, 255, 0.5) !important;
   color: #fff;
 }
 

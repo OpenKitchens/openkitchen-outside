@@ -25,12 +25,12 @@ defineProps<{
     <div class="card">
       <img :src="topThread.background" class="card-img-top" style="object-fit: cover; height: 300px;" alt="Sample Image">
       <div class="card-body">
-        <h5 class="card-title" style="font-size: 27px;">{{ topThread.title }}</h5>
-        <p class="card-text"></p>
         <div class="d-flex align-items-center">
           <img :src="topThread.icon" class="rounded-circle me-2 author-icon" alt="User Avatar">
           <span class="fw-bold">{{ topThread.user }}</span>
         </div>
+        <h5 class="card-title" style="font-size: 1.25rem;">{{ topThread.title }}</h5>
+        <p class="card-text"></p>
       </div>
       <div class="card-footer">
         <small class="text-muted">{{ topThread.serverEmoji }} {{ topThread.server }}</small>
@@ -86,6 +86,7 @@ defineProps<{
 
 .card-title {
   padding: 15px 30px;
+  margin: 0;
 }
 
 .card-title-small {

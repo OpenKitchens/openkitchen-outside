@@ -34,7 +34,7 @@ const timeLine = reactive({
   topThread: {
     background:
       "https://media.loom-app.com/gizmodo/dist/images/2022/06/21/220622_ps5slim.jpg?w=1280",
-    title: "魔改造でぺったんこになった水冷式｢PlayStation 5 slim｣。薄さなんと2cm",
+    title: "【魔改造】薄さ2cmの水冷式 「PlayStation 5 slim」",
     user: "Dirt君",
     icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
     link: "9e61633c0c104a64d719e53871538f73688291d3ffd02dff5f55e3ae7de093d0/米メタ、ツイッターのような対話アプリ「Threads」発表へ",
@@ -86,14 +86,14 @@ const timeLine = reactive({
   <div v-if="socketReady" class="holy-grail">
     <main class="holy-grail__main">
       <!-- Left sidebar -->
-      <aside class="holy-grail__left" style="overflow-y: scroll; height: calc(100vh - 50px)">
+      <aside class="holy-grail__left" style="overflow-y: scroll; height: 100%">
         <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)" :myHeader="(UI.myHeader as string)"
           :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)" :friends="UI.friends" :servers="UI.servers"
           @addServer="addServer" />
       </aside>
 
       <!-- Main content -->
-      <article class="holy-grail__middle" style="width: 55%; overflow-y: scroll; height: calc(100vh - 50px)">
+      <article class="holy-grail__middle" style="width: 55%; overflow-y: scroll; height: 100%">
         <mainContent :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
       </article>
 
@@ -115,7 +115,7 @@ const timeLine = reactive({
 .holy-grail__main {
   /* Take the remaining height */
   flex-grow: 1;
-
+  height: calc(100vh - 56px);
   /* Layout the left sidebar, main content and right sidebar */
   display: flex;
   flex-direction: row;

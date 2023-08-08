@@ -23,8 +23,8 @@ const onPagesChange = (page: string): void => {
 <template>
   <Header v-on:pagesChange="onPagesChange"></Header>
 
-  <home v-if="pages === 'home'"></home>
-  <bookmark v-if="pages === 'bookmark'"></bookmark>
-  <message v-if="pages === 'message'"></message>
-  <notification v-if="pages === 'notification'"></notification>
+  <home v-show="pages === 'home'"></home>
+  <bookmark show="pages === 'bookmark'"></bookmark>
+  <message show="pages === 'message'"></message>
+  <notification show="pages === 'notification'"></notification>
 </template>
