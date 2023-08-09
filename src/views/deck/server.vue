@@ -126,5 +126,8 @@ socket.onclose = function () {
   white-space: pre-wrap;
   margin-left: 50px;
   margin-right: 50px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 7px;
 }
 </style>
