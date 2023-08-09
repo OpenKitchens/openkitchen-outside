@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 defineProps<{
   myName: string;
@@ -7,7 +9,7 @@ defineProps<{
   myHeader: string;
   myIcon: string;
   myBio: string;
-  servers: { emoji: string; title: string; badge: string }[];
+  servers: { emoji: string; title: string; badge: string, socket: string }[];
   friends: { title: string; image: string }[];
 }>();
 
@@ -38,6 +40,10 @@ function join() {
   }
 }
 
+const goToServer = (socket: string) => {
+  console.log(socket)
+  router.push({ name: 'server', query: { socket: socket } });
+}
 </script>
 
 <template>
@@ -55,7 +61,7 @@ function join() {
   <div class="container mt-5">
     <div class="title">Server</div>
     <ul class="custom-list-unstyled" v-for="server in servers">
-      {{ server.emoji }} {{ server.title }}
+      <p @click="goToServer(server.socket)">{{ server.emoji }} {{ server.title }}</p>
     </ul>
     <div class="d-grid gap-2 mx-auto mt-3">
       <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addserver">サーバーを追加</button>
@@ -143,6 +149,7 @@ function join() {
   background-color: rgba(0, 94, 255, 0.5) !important;
   color: #fff;
 }
+
 .custom-list-unstyled:hover {
   background-color: rgba(0, 94, 255, 0.5) !important;
   color: #fff;
@@ -190,7 +197,7 @@ p {
   margin-bottom: 10%;
 }
 
-.modal-footer{
+.modal-footer {
   border: none;
 }
 </style>

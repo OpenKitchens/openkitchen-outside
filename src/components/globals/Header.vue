@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue"
-interface Emits {
-  (event: "pagesChange", page: string): void
-}
-
-const emit = defineEmits<Emits>()
+import { useRouter } from 'vue-router';
 
 const pages = ref("home")
 
+const router = useRouter();
+
 const onPagesChange = (page: string): void => {
-  emit("pagesChange", page)
   pages.value = page
+  router.push({ name: page });
 }
 </script>
 

@@ -80,6 +80,7 @@ const timeLine = reactive({
     },
   ],
 });
+
 </script>
 
 <template>
@@ -89,7 +90,7 @@ const timeLine = reactive({
       <aside class="holy-grail__left" style="overflow-y: scroll; height: 100%">
         <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)" :myHeader="(UI.myHeader as string)"
           :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)" :friends="UI.friends" :servers="UI.servers"
-          @addServer="addServer" />
+        />
       </aside>
 
       <!-- Main content -->
