@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from "vue"
+import { ref, reactive } from "vue"
+import mainContent from "@/components/modules/mainContent.vue";
 import rightSideBar from "@/components/modules/rightSideBar.vue";
 
 const query = ref(decodeURI(window.location.search.substring(8)))
@@ -24,18 +25,77 @@ socket.onmessage = function (event) {
 socket.onclose = function () {
   console.log('WebSocket接続がクローズされました');
 };
+
+const timeLine = reactive({
+  topThread: {
+    background:
+      "https://media.loom-app.com/gizmodo/dist/images/2022/06/21/220622_ps5slim.jpg?w=1280",
+    title: "【魔改造】薄さ2cmの水冷式 「PlayStation 5 slim」",
+    user: "Dirt君",
+    icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
+    link: "9e61633c0c104a64d719e53871538f73688291d3ffd02dff5f55e3ae7de093d0/米メタ、ツイッターのような対話アプリ「Threads」発表へ",
+    serverEmoji: "🎙",
+    server: "雑談サーバー",
+  },
+  threadList: [
+    {
+      title: "【VRChat】自鯖のリンク貼ってけ",
+      user: "OpenKitchen",
+      icon: "https://lh3.googleusercontent.com/a/AAcHTtfJxAxhupV-gaBkzvK52gbXss-IRzj8uk88IIg-aI5fYA=s96-c",
+      serverEmoji: "🍔",
+      server: "openkitchen開発部",
+      link: "52d16e3c0c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0/【VRChat】自鯖のリンク貼ってけ",
+      badge: 512,
+    },
+    {
+      title: "あ、Github落ちた…",
+      user: "Dirt君",
+      icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
+      serverEmoji: "🐈‍⬛",
+      server: "GitHubの民",
+      link: "12d6e63c0c10ea64d779e58871538f73978291d3ffd72dff5f75e3ae7de07370/あ、Github落ちた…",
+      badge: 287,
+    },
+    {
+      title: "【悲報】GitHubサーバーダウン...",
+      user: "OpenKitchen 猫々猫氏",
+      icon: "https://neconeconews.com/wp-content/uploads/popcat1_close.png",
+      serverEmoji: "🎙",
+      server: "雑談サーバー",
+      link: "52d16e3c0c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0/【悲報】GitHubサーバーダウン...",
+      badge: 114,
+    },
+    {
+      title: "【organization】ワクワク参加レポジトリ",
+      user: "BigSur氏",
+      icon: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Finder_Icon_macOS_Big_Sur.png",
+      serverEmoji: "🐈‍⬛",
+      server: "GitHubの民",
+      link: "65a1e340c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0/【organization】ワクワク参加レポジトリ",
+      badge: 71,
+    },
+  ],
+});
+
 </script>
 
 <template>
   <div class="holy-grail">
     <div class="holy-grail__main">
-      <div class="container mt-4 holy-grail__middle" style="width: 55%; overflow-y: scroll; height: 100%">
+      <div class="container mt-4 holy-grail__middle" style="width: 55%; overflow-y: scroll; height: calc(100vh - 100px)">
         <div class="card">
-          <img :src="UI.image" class="card-img-top" style="object-fit: cover; height: 200px;" alt="Sample Image">
+          <div class="card-header text-center">
+            <h5>{{ UI.emoji }} {{ UI.title }}</h5>
+          </div>
+          <img :src="UI.image" class="card-img-top" style="object-fit: cover; height: 200px; margin-top: 50px;" alt="Sample Image">
+          <div class="card-title">
+            <h4 class="mt-3" style="font-weight: bold;">{{ UI.emoji }} {{ UI.title }}</h4>
+            <p class="mt-3">{{ UI.serverInformation }}</p>
+          </div>
           <div class="card-body">
-            <div class="emoji">{{ UI.emoji }}</div>
-            <h5 class="card-title mt-5">{{ UI.title }}</h5>
-            <p class="card-text mt-3">{{ UI.serverInformation }}</p>
+            <div class="holy-grail__middle mt-3">
+              <mainContent :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
+            </div>
           </div>
         </div>
       </div>
@@ -72,17 +132,11 @@ socket.onclose = function () {
 }
 
 .card-title {
-  font-size: 25px;
-  font-weight: bold;
-  position: relative;
-  left: 50px;
-}
-
-.emoji {
-  font-size: 70px;
-  position: absolute;
-  top: 150px;
-  left: 50px;
+  margin: 0;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: rgb(27,88,204);
 }
 
 .holy-grail {
@@ -97,17 +151,17 @@ socket.onclose = function () {
   /* Layout the left sidebar, main content and right sidebar */
   display: flex;
   flex-direction: row;
-  margin-left: 100px;
+  margin-left: 200px;
 }
 
 .holy-grail__middle {
   /* Take the remaining width */
-  flex-grow: 1;
+  margin: 0;
 }
 
 .holy-grail__right {
   width: calc(27.5% - 30px);
-  margin-right: 100px;
+  margin-right: 200px;
 }
 
 .holy-grail__left::-webkit-scrollbar {
@@ -122,12 +176,26 @@ socket.onclose = function () {
   display: none;
 }
 
-.card-text{
-  white-space: pre-wrap;
-  margin-left: 50px;
-  margin-right: 50px;
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 10px;
-  border-radius: 7px;
+.card-header h5 {
+  font-size: 1.25rem;
+  margin: 0;
+  margin: 8px;
+}
+
+.card-header small {
+  font-size: .712em;
+}
+
+.card-header{
+  position: fixed;
+  z-index: 100;
+  background-color: rgba(161, 161, 161, 0.75);
+  width: calc(55% - 134px);
+  margin-left: -1px;
+  margin-top: -1px;
+  border: solid 1px rgb(39, 39, 39);
+  border-bottom: none;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(5px);
 }
 </style>
