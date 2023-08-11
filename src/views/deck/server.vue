@@ -82,19 +82,22 @@ const timeLine = reactive({
 <template>
   <div class="holy-grail">
     <div class="holy-grail__main">
-      <div class="container mt-4 holy-grail__middle" style="width: 55%; overflow-y: scroll; height: calc(100vh - 100px)">
-        <div class="card">
+      <div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">
+        <div class="card servers">
           <div class="card-header text-center">
-            <h5>{{ UI.emoji }} {{ UI.title }}</h5>
+            {{ UI.title }}
           </div>
-          <img :src="UI.image" class="card-img-top" style="object-fit: cover; height: 200px; margin-top: 50px;" alt="Sample Image">
-          <div class="card-title">
-            <h4 class="mt-3" style="font-weight: bold;">{{ UI.emoji }} {{ UI.title }}</h4>
-            <p class="mt-3">{{ UI.serverInformation }}</p>
-          </div>
-          <div class="card-body">
-            <div class="holy-grail__middle mt-3">
-              <mainContent :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
+          <div class="server-card">
+            <img :src="UI.image" class="card-img-top" style="object-fit: cover; height: 200px;border-radius: 0;"
+              alt="Sample Image">
+            <div class="card-title">
+              <h4 class="mt-3" style="font-weight: bold;">{{ UI.emoji }} {{ UI.title }}</h4>
+              <p class="mt-3">{{ UI.serverInformation }}</p>
+            </div>
+            <div class="card-body">
+              <div class="holy-grail__middle mt-3">
+                <mainContent :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
+              </div>
             </div>
           </div>
         </div>
@@ -125,6 +128,11 @@ const timeLine = reactive({
   /* 画像を背景に配置 */
 }
 
+.server-card {
+  height: calc(100vh - 102px);
+  overflow-y: scroll;
+}
+
 .content {
   position: relative;
   z-index: 1;
@@ -136,7 +144,12 @@ const timeLine = reactive({
   padding: 20px;
   padding-left: 40px;
   padding-right: 40px;
-  background-color: rgb(27,88,204);
+  background-color: rgb(27, 88, 204);
+}
+
+.servers{
+  overflow: hidden;
+  height: calc(100vh - 92px);
 }
 
 .holy-grail {
@@ -151,7 +164,7 @@ const timeLine = reactive({
   /* Layout the left sidebar, main content and right sidebar */
   display: flex;
   flex-direction: row;
-  margin-left: 200px;
+  margin-left: 150px;
 }
 
 .holy-grail__middle {
@@ -161,7 +174,7 @@ const timeLine = reactive({
 
 .holy-grail__right {
   width: calc(27.5% - 30px);
-  margin-right: 200px;
+  margin-right: 150px;
 }
 
 .holy-grail__left::-webkit-scrollbar {
@@ -176,26 +189,8 @@ const timeLine = reactive({
   display: none;
 }
 
-.card-header h5 {
-  font-size: 1.25rem;
-  margin: 0;
-  margin: 8px;
-}
-
-.card-header small {
-  font-size: .712em;
-}
-
-.card-header{
-  position: fixed;
-  z-index: 100;
-  background-color: rgba(161, 161, 161, 0.75);
-  width: calc(55% - 134px);
-  margin-left: -1px;
-  margin-top: -1px;
-  border: solid 1px rgb(39, 39, 39);
-  border-bottom: none;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(5px);
+.card-header {
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>

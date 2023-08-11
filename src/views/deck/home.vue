@@ -14,7 +14,6 @@ const socketReady = ref(false);
 //UIの構成
 const UI = ref({});
 
-
 socket.onopen = function () {
   console.log('WebSocket接続が確立されました');
   socket.send(JSON.stringify({ type: { renderingEngine: true } })); // サーバーにメッセージを送信
