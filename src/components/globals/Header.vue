@@ -1,53 +1,75 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue"
 import { useRouter } from 'vue-router';
 
 const pages = ref("home")
+const socketReady = ref(false);
 
 const router = useRouter();
 
-const onPagesChange = (page: string): void => {
+const onPagesChange = (page) => {
   pages.value = page
   router.push({ name: page });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("threadPOSTForm");
-  const submitButton = document.getElementById("submitButton");
-
-  submitButton.addEventListener("click", function (event) {
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    form.classList.add("was-validated");
-  });
-});
-
 const socket = new WebSocket(localStorage.getItem('websocket'));
 
-// WebSocketの接続状態を追跡するref
-const socketReady = ref(false);
-
-//UIの構成
 const UI = ref({});
-
 socket.onopen = function () {
-  console.log('WebSocket接続が確立されました');
-  socket.send(JSON.stringify({ type: { renderingEngine: true } })); // サーバーにメッセージを送信
+  socket.send(JSON.stringify({ type: { renderingEngine: true } }));
 };
 
 socket.onmessage = function (event) {
   UI.value = JSON.parse(event.data);
-  console.log(event.data)
-  socketReady.value = true
-}
+  socketReady.value = true;
+};
 
 socket.onclose = function () {
   console.log('WebSocket接続がクローズされました');
 };
 
-//UI.servers.title UIstate.ui.servers.emoji
+const formData = {
+  title: "",
+  headerImage: "",
+  selectedServer: "",
+  message: ""
+};
+
+const isTitleValid = ref(true);
+const isServerSelected = ref(true);
+const isMessageValid = ref(true);
+
+const submitForm = () => {
+  isTitleValid.value = formData.title !== "";
+  isServerSelected.value = formData.selectedServer !== "";
+  isMessageValid.value = formData.message !== "";
+
+  if (isTitleValid.value && isServerSelected.value && isMessageValid.value) {
+    const socketPost = new WebSocket(localStorage.getItem('websocket'));
+    console.log("接続先サーバー"+formData.selectedServer)
+
+    socketPost.onopen = function () {
+      socketPost.send(JSON.stringify(
+        {
+          type: { threadPost: true },
+          title: formData.title,
+          headerImage: formData.headerImage,
+          message: formData.message,
+          socket: formData.selectedServer
+        }
+      ));
+
+      console.log("うぇｗっうぇｗっ")
+    };
+  } else {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  const form = event.currentTarget;
+  form.classList.add("was-validated");
+};
+
 </script>
 
 <template>
@@ -91,8 +113,7 @@ socket.onclose = function () {
 
 
   <!--スレ立て-->
-  <div class="modal fade" id="threadPOST" tabindex="-1" aria-labelledby="threadPOSTLabel" aria-hidden="true"
-    v-if="socketReady">
+  <div class="modal fade" id="threadPOST" tabindex="-1" aria-labelledby="threadPOSTLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -100,51 +121,53 @@ socket.onclose = function () {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="needs-validation" novalidate id="threadPOSTForm">
+          <form class="row g-3 needs-validation" @submit.prevent="submitForm" novalidate>
             <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Title</label>
-              <input type="text" class="form-control" id="recipient-name" required />
-              <div class="invalid-feedback">
+              <label for="title" class="col-form-label">Title</label>
+              <input v-model="formData.title" type="text" class="form-control" id="title" required />
+              <div class="invalid-feedback" v-if="!isTitleValid">
                 タイトルを入力してください。
               </div>
               <div class="valid-feedback">
-                Looks good!
+                OK!
               </div>
             </div>
+
             <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">ヘッダー画像</label>
-              <input type="text" class="form-control" id="recipient-name" />
+              <label for="headerImage" class="col-form-label">ヘッダー画像</label>
+              <input v-model="formData.headerImage" type="text" class="form-control" id="headerImage" />
             </div>
 
-            <div class="input-group mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">
-                Server
-              </label>
-              <select class="form-select" id="inputGroupSelect01" required>
+            <div class="mb-3">
+              <label class="serverSelect" for="serverSelect">Server</label>
+              <select v-model="formData.selectedServer" class="form-control" id="serverSelect" required>
                 <option selected disabled value="">サーバーを選択してください</option>
-                <option v-for="server in UI.servers" :key="server.title">
-                  {{ server.emoji }} {{ server.title }}
-                </option>
+                <option v-for="server in UI.servers" :key="server.title" :value="server.socket">{{ server.emoji }} {{ server.title }}</option>
               </select>
-              <div class="invalid-feedback">
-                サーバーを選択してください。
+
+
+              <div class="invalid-feedback" v-if="!isServerSelected">
+                Serverを選択してください。
+              </div>
+              <div class="valid-feedback">
+                OK!
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="message-text" class="col-form-label">メッセージ</label>
-              <textarea class="form-control" id="message-text" required></textarea>
-              <div class="invalid-feedback">
+              <label for="messageField" class="col-form-label">メッセージ</label>
+              <textarea v-model="formData.message" class="form-control" id="messageField" required></textarea>
+              <div class="invalid-feedback" v-if="!isMessageValid">
                 メッセージを入力してください。
               </div>
+              <div class="valid-feedback">
+                OK!
+              </div>
+            </div>
+            <div class="col-12">
+              <button data-v-1e579dcb="" class="btn btn-primary" type="submit" style="width: 100%;">スレッドを投稿</button>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            閉じる
-          </button>
-          <button type="button" class="btn btn-primary darkButton" id="submitButton">投稿</button>
         </div>
       </div>
     </div>
