@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 if(!localStorage.getItem('websocket')){
   const router = useRouter();
-  router.push('/login');
+  const route = useRoute();
+  if(route.path === "signIn"){
+
+  }else{
+    router.push('/login');
+  }
 }
 </script>
 
