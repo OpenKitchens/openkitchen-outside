@@ -3,6 +3,13 @@ import { ref, reactive } from "vue"
 import mainContent from "@/components/modules/mainContent.vue";
 import rightSideBar from "@/components/modules/rightSideBar.vue";
 
+import { useRouter } from 'vue-router';
+
+if(!localStorage.getItem('websocket')){
+  const router = useRouter();
+  router.push('/login');
+}
+
 const query = ref(decodeURI(window.location.search.substring(8)))
 
 const socket = new WebSocket(query.value);

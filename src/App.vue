@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
+import Header from '@/components/globals/Header.vue'
 
-if(!localStorage.getItem('websocket')){
-  const router = useRouter();
-  const route = useRoute();
-  if(route.path === "signIn"){
-
-  }else{
-    router.push('/login');
-  }
-}
+const route = useRoute();
 </script>
 
 <template>
+  <Header v-if='route.path != "/signIn" && route.path != "/login"' />
   <RouterView />
 </template>
 

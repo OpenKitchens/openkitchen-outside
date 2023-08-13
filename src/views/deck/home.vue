@@ -4,6 +4,13 @@ import mainContent from "@/components/modules/mainContent.vue";
 import rightSideBar from "@/components/modules/rightSideBar.vue";
 import { reactive, ref } from "vue";
 
+import { useRouter } from 'vue-router';
+
+if(!localStorage.getItem('websocket')){
+  const router = useRouter();
+  router.push('/login');
+}
+
 //client鯖と通信する用
 //@ts-ignore
 const socket = new WebSocket(localStorage.getItem('websocket'));
