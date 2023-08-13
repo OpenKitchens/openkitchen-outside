@@ -2,7 +2,7 @@
 import leftSideBar from "@/components/modules/leftSideBar.vue";
 import mainContent from "@/components/modules/mainContent.vue";
 import rightSideBar from "@/components/modules/rightSideBar.vue";
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 
 import { useRouter } from 'vue-router';
 
@@ -36,57 +36,6 @@ socket.onclose = function () {
   console.log('WebSocket接続がクローズされました');
 };
 
-const timeLine = reactive({
-  topThread: {
-    background:
-      "https://media.loom-app.com/gizmodo/dist/images/2022/06/21/220622_ps5slim.jpg?w=1280",
-    title: "【魔改造】薄さ2cmの水冷式 「PlayStation 5 slim」",
-    user: "Dirt君",
-    icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
-    link: "9e61633c0c104a64d719e53871538f73688291d3ffd02dff5f55e3ae7de093d0/米メタ、ツイッターのような対話アプリ「Threads」発表へ",
-    serverEmoji: "🎙",
-    server: "雑談サーバー",
-  },
-  threadList: [
-    {
-      title: "【VRChat】自鯖のリンク貼ってけ",
-      user: "OpenKitchen",
-      icon: "https://lh3.googleusercontent.com/a/AAcHTtfJxAxhupV-gaBkzvK52gbXss-IRzj8uk88IIg-aI5fYA=s96-c",
-      serverEmoji: "🍔",
-      server: "openkitchen開発部",
-      link: "52d16e3c0c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0/【VRChat】自鯖のリンク貼ってけ",
-      badge: 512,
-    },
-    {
-      title: "あ、Github落ちた…",
-      user: "Dirt君",
-      icon: "https://static.wikia.nocookie.net/discord/images/e/e6/Mee6.png",
-      serverEmoji: "🐈‍⬛",
-      server: "GitHubの民",
-      link: "12d6e63c0c10ea64d779e58871538f73978291d3ffd72dff5f75e3ae7de07370/あ、Github落ちた…",
-      badge: 287,
-    },
-    {
-      title: "【悲報】GitHubサーバーダウン...",
-      user: "OpenKitchen 猫々猫氏",
-      icon: "https://neconeconews.com/wp-content/uploads/popcat1_close.png",
-      serverEmoji: "🎙",
-      server: "雑談サーバー",
-      link: "52d16e3c0c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0/【悲報】GitHubサーバーダウン...",
-      badge: 114,
-    },
-    {
-      title: "【organization】ワクワク参加レポジトリ",
-      user: "BigSur氏",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Finder_Icon_macOS_Big_Sur.png",
-      serverEmoji: "🐈‍⬛",
-      server: "GitHubの民",
-      link: "65a1e340c104a64d719e58871538f73988291d3ffd02dff5f55e3ae7de093d0/【organization】ワクワク参加レポジトリ",
-      badge: 71,
-    },
-  ],
-});
-
 </script>
 
 <template>
@@ -101,7 +50,7 @@ const timeLine = reactive({
 
       <!-- Main content -->
       <article class="holy-grail__middle" style="width: 55%; overflow-y: scroll; height: 100%">
-        <mainContent :topThread="timeLine.topThread" :threadList="timeLine.threadList" />
+        <mainContent :timeLine="UI.timeLine" />
       </article>
 
       <!-- Right sidebar -->
