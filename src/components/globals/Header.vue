@@ -199,10 +199,11 @@ const submitForm = () => {
 
 img {
   filter: invert(100%);
+  width: 16px;
 }
 
 .createThreads {
-  width: 160px;
+  width: 170px !important;
   border-radius: 50px;
 }
 
