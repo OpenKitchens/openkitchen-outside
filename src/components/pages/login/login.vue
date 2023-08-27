@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const websocket = ref("")
 const username = ref("")
 const password = ref("")
 
 const login = () => {
   console.log("callSocket");
   //@ts-ignore
-  const socket = new WebSocket(localStorage.getItem("websocket"));
+  const socket = new WebSocket(websocket.value);
 
   socket.onopen = function () {
     console.log('WebSocket接続が確立されました');
@@ -22,6 +23,7 @@ const login = () => {
     console.log('サーバーからのメッセージ:', event.data);
     //sessionStorage.setItem("uuid", event.data);
     localStorage.setItem("token", event.data);
+    localStorage.setItem("websocket", websocket.value);
     window.location.href = "/"
   };
 
@@ -41,6 +43,10 @@ const login = () => {
           <div class="card-body">
             <h1 class="card-title text-center">お帰りなさい👋</h1>
             <p class="text-center">Systemにログインしましょう</p>
+            <div class="mb-3">
+              <input type="text" id="password" class="form-control" v-model="websocket" placeholder="websocketを入力"
+                required>
+            </div>
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="ユーザー名を入力" aria-label="Recipient's username"
                 aria-describedby="basic-addon2" v-model="username">
