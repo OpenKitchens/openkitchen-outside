@@ -12,21 +12,28 @@ const onPagesChange = (page) => {
   router.push({ name: page });
 }
 
-const socket = new WebSocket(localStorage.getItem('websocket'));
-
+//UIの構成
 const UI = ref({});
-socket.onopen = function () {
-  socket.send(JSON.stringify({ type: { renderingEngine: true } }));
-};
 
-socket.onmessage = function (event) {
-  UI.value = JSON.parse(event.data);
-  socketReady.value = true;
-};
+//client鯖と通信する用
+//@ts-ignore
+fetch(localStorage.getItem('websocket'), {
+  method: 'POST', // POSTリクエストを指定
+  headers: {
+    'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+  },
+  body: JSON.stringify({ type: { renderingEngine: true } }) // POSTデータをJSON形式に変換して指定
+})
+  .then(response => response.json())
+  .then(data => {
+    UI.value = data;
+    console.log(data)
+    socketReady.value = true
+  })
+  .catch(error => {
+    console.error('エラーが発生しました:', error);
+  });
 
-socket.onclose = function () {
-  console.log('WebSocket接続がクローズされました');
-};
 
 const formData = {
   title: "",
@@ -45,11 +52,16 @@ const submitForm = () => {
   isMessageValid.value = formData.message !== "";
 
   if (isTitleValid.value && isServerSelected.value && isMessageValid.value) {
-    const socketPost = new WebSocket(localStorage.getItem('websocket'));
-    console.log("接続先サーバー"+formData.selectedServer)
-
-    socketPost.onopen = function () {
-      socketPost.send(JSON.stringify(
+    
+    console.log("接続先サーバー" + formData.selectedServer)
+    //client鯖と通信する用
+    //@ts-ignore
+    fetch(localStorage.getItem('websocket'), {
+      method: 'POST', // POSTリクエストを指定
+      headers: {
+        'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+      },
+      body: JSON.stringify(
         {
           type: { threadPost: true },
           title: formData.title,
@@ -57,10 +69,11 @@ const submitForm = () => {
           message: formData.message,
           socket: formData.selectedServer
         }
-      ));
-
-      console.log("うぇｗっうぇｗっ")
-    };
+      ) // POSTデータをJSON形式に変換して指定
+    })
+      .catch(error => {
+        console.error('エラーが発生しました:', error);
+      });
   } else {
     event.preventDefault();
     event.stopPropagation();
@@ -142,7 +155,8 @@ const submitForm = () => {
               <label class="serverSelect" for="serverSelect">Server</label>
               <select v-model="formData.selectedServer" class="form-control" id="serverSelect" required>
                 <option selected disabled value="">サーバーを選択してください</option>
-                <option v-for="server in UI.servers" :key="server.title" :value="server.socket">{{ server.emoji }} {{ server.title }}</option>
+                <option v-for="server in UI.servers" :key="server.title" :value="server.socket">{{ server.emoji }} {{
+                  server.title }}</option>
               </select>
 
 

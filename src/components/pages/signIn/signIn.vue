@@ -35,75 +35,73 @@ const specialInput = ref("");
 
 const callSocket = () => {
   console.log("callSocket");
-  const socket = new WebSocket(websocket.value);
 
-  localStorage.setItem('websocket', websocket.value);
-
-  socket.onopen = function () {
-    console.log('WebSocket接続が確立されました');
-    socket.send(JSON.stringify({
+  fetch(websocket.value, {
+    method: 'POST', // POSTリクエストを指定
+    headers: {
+      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+    },
+    body: JSON.stringify({
       type: { connectTest: true }
-    })); // サーバーにメッセージを送信
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('サーバーからのメッセージ:', data);
+      switchNextCard(); // 次のカードに切り替える
+    })
+    .catch(error => {
+      console.error('エラーが発生しました:', error);
+    });
+
+  const switchNextCardAndPerformAction = () => {
+    if (currentCardIndex.value === 1) {
+      callSocket(); // 特別な処理を実行
+    } else if (currentCardIndex.value === 4) {
+      console.log("4")
+      createAccount(); // 特別な処理を実行
+    } else {
+      switchNextCard(); // 次のカードに切り替える
+    }
   };
 
-  socket.onmessage = function (event) {
-    console.log('サーバーからのメッセージ:', event.data);
+  const callSocketAndNextCard = () => {
+    callSocket(); // WebSocketを呼び出す
     switchNextCard(); // 次のカードに切り替える
-  };
-
-  socket.onclose = function () {
-    console.log('WebSocket接続がクローズされました');
-  };
-};
-
-const switchNextCardAndPerformAction = () => {
-  if (currentCardIndex.value === 1) {
-    callSocket(); // 特別な処理を実行
-  } else if (currentCardIndex.value === 4) {
-    console.log("4")
-    createAccount(); // 特別な処理を実行
-  } else {
-    switchNextCard(); // 次のカードに切り替える
   }
-};
 
-const callSocketAndNextCard = () => {
-  callSocket(); // WebSocketを呼び出す
-  switchNextCard(); // 次のカードに切り替える
+  const createAccount = () => {
+    console.log("callSocket");
+
+    fetch(websocket.value, {
+      method: 'POST', // POSTリクエストを指定
+      headers: {
+        'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+      },
+      body: JSON.stringify({
+        type: { createAccount: true },
+        username: username.value,
+        password: password.value,
+        socket: websocket.value,
+        myIconImage: myIconImage.value,
+        emoji: serverIcon.value,
+        myHeaderImage: myHeaderImage.value,
+        myBio: myBio.value,
+        serverIconImage: serverIconImage.value,
+        serverInformation: serverInformation.value,
+        servername: servername.value
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        localStorage.setItem("token", data)
+        switchNextCard(); // 次のカードに切り替える
+      })
+      .catch(error => {
+        console.error('エラーが発生しました:', error);
+      });
+  }
 }
-
-const createAccount = () => {
-  console.log("callSocket");
-  const socket = new WebSocket(websocket.value);
-
-  socket.onopen = function () {
-    console.log('WebSocket接続が確立されました');
-    socket.send(JSON.stringify({
-      type: { createAccount: true },
-      username: username.value,
-      password: password.value,
-      socket: websocket.value,
-      myIconImage: myIconImage.value,
-      emoji: serverIcon.value,
-      myHeaderImage: myHeaderImage.value,
-      myBio: myBio.value,
-      serverIconImage: serverIconImage.value,
-      serverInformation: serverInformation.value,
-      servername: servername.value
-    })); // サーバーにメッセージを送信
-
-    switchNextCard();
-  }
-
-  socket.onmessage = function (event) {
-    localStorage.setItem("token", event.data)
-  }
-
-  socket.onclose = function () {
-    console.log('WebSocket接続がクローズされました');
-  };
-}
-
 </script>
 
 <template>
@@ -117,7 +115,7 @@ const createAccount = () => {
               <p class="text-center">{{ card.text }}</p>
               <div v-if="index === 0">
                 <div class="input-group mb-3">
-                  <input type="text" v-model="websocket" class="form-control" placeholder="ws://example.com">
+                  <input type="text" v-model="websocket" class="form-control" placeholder="https://example.com">
                 </div>
                 <button class="btn btn-primary w-100" type="button" @click="callSocketAndNextCard">Next</button>
               </div>
@@ -156,11 +154,13 @@ const createAccount = () => {
 
               <div v-if="index === 4">
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" v-model="serverIconImage" placeholder="サーバーのヘッダーをurlで入力" required>
+                  <input type="text" class="form-control" v-model="serverIconImage" placeholder="サーバーのヘッダーをurlで入力"
+                    required>
                 </div>
                 <label for="serverlabel" class="form-label">サーバーの絵文字</label>
                 <div class="input-group mb-3 serverlcon">
-                  <input type="text" class="form-control servericonform" id="serverlabel" v-model="serverIcon" maxlength="1" required>
+                  <input type="text" class="form-control servericonform" id="serverlabel" v-model="serverIcon"
+                    maxlength="1" required>
                 </div>
                 <div class="input-group flex-nowrap mb-3">
                   <input type="text" class="form-control" placeholder="サーバー名を入力" aria-label="Recipient's username"
@@ -268,14 +268,14 @@ p {
   }
 }
 
-.servericonform{
+.servericonform {
   width: 100px;
   height: 100px;
   font-size: 50px;
   text-align: center;
 }
 
-.serverlcon{
+.serverlcon {
   width: 100px;
   height: 100px;
   margin: auto;

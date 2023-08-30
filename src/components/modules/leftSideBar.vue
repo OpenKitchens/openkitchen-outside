@@ -18,26 +18,29 @@ const title = ref("サーバに参加しあの頃へ行きましょう")
 const subTitle = ref("サーバに参加しあの頃へ行きましょう")
 
 function join() {
+
   //@ts-ignore
-  const socket = new WebSocket(localStorage.getItem('websocket'));
-  socket.onopen = function () {
-    console.log('WebSocket接続が確立されました');
-    socket.send(JSON.stringify(
+  fetch(localStorage.getItem('websocket'), {
+    method: 'POST', // POSTリクエストを指定
+    headers: {
+      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+    },
+    body: JSON.stringify(
       {
         type: { addServer: true },
         socket: serverSocket.value,
         temporaryId: localStorage.getItem("token")
       }
-    )); // サーバーにメッセージを送信
-    title.value = "サーバー参加の申請をしました！"
-    subTitle.value = "しばらく待ってリロードしたら多分いけると思いますよ"
-    //@ts-ignore
-    document.getElementById("addserverlabel").style = "background-color: rgba(5, 255, 105, 0.25);"
-  };
+    ) // POSTデータをJSON形式に変換して指定
+  })
+    .catch(error => {
+      console.error('エラーが発生しました:', error);
+    });
 
-  socket.onclose = function () {
-    console.log('WebSocket接続がクローズされました');
-  }
+  title.value = "サーバー参加の申請をしました！"
+  subTitle.value = "しばらく待ってリロードしたら多分いけると思いますよ"
+  //@ts-ignore
+  document.getElementById("addserverlabel").style = "background-color: rgba(5, 255, 105, 0.25);"
 }
 
 const goToServer = (socket: string) => {
@@ -83,9 +86,9 @@ const goToServer = (socket: string) => {
         </div>
 
         <div class="modal-body">
-          <label for="exampleFormControlInput1" class="form-label">サーバーのwebsocketを入力</label>
+          <label for="exampleFormControlInput1" class="form-label">サーバーのurlを入力</label>
           <div class="input-group flex-nowrap mb-3">
-            <input type="text" class="form-control" placeholder="wss://server.io" aria-label="Recipient's username"
+            <input type="text" class="form-control" placeholder="https://server.io" aria-label="Recipient's username"
               aria-describedby="basic-addon3" v-model="serverSocket">
             <span class="input-group-text scheme-mode-disable" id="basic-addon3">@server</span>
           </div>

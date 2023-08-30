@@ -6,14 +6,10 @@ import { ref } from "vue";
 
 import { useRouter } from 'vue-router';
 
-if(!localStorage.getItem('websocket')){
+if (!localStorage.getItem('websocket')) {
   const router = useRouter();
   router.push('/login');
 }
-
-//client鯖と通信する用
-//@ts-ignore
-const socket = new WebSocket(localStorage.getItem('websocket'));
 
 // WebSocketの接続状態を追跡するref
 const socketReady = ref(false);
@@ -21,20 +17,24 @@ const socketReady = ref(false);
 //UIの構成
 const UI = ref({});
 
-socket.onopen = function () {
-  console.log('WebSocket接続が確立されました');
-  socket.send(JSON.stringify({ type: { renderingEngine: true } })); // サーバーにメッセージを送信
-};
-
-socket.onmessage = function (event) {
-  UI.value = JSON.parse(event.data);
-  console.log(event.data)
-  socketReady.value = true
-}
-
-socket.onclose = function () {
-  console.log('WebSocket接続がクローズされました');
-};
+//client鯖と通信する用
+//@ts-ignore
+fetch(localStorage.getItem('websocket'), {
+  method: 'POST', // POSTリクエストを指定
+  headers: {
+    'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+  },
+  body: JSON.stringify({ type: { renderingEngine: true } }) // POSTデータをJSON形式に変換して指定
+})
+  .then(response => response.json())
+  .then(data => {
+    UI.value = data;
+    console.log(data)
+    socketReady.value = true
+  })
+  .catch(error => {
+    console.error('エラーが発生しました:', error);
+  });
 
 </script>
 
@@ -44,8 +44,7 @@ socket.onclose = function () {
       <!-- Left sidebar -->
       <aside class="holy-grail__left" style="overflow-y: scroll; height: 100%">
         <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)" :myHeader="(UI.myHeader as string)"
-          :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)" :friends="UI.friends" :servers="UI.servers"
-        />
+          :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)" :friends="UI.friends" :servers="UI.servers" />
       </aside>
 
       <!-- Main content -->

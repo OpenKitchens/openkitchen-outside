@@ -5,33 +5,34 @@ import rightSideBar from "@/components/modules/rightSideBar.vue";
 
 import { useRouter } from 'vue-router';
 
-if(!localStorage.getItem('websocket')){
+if (!localStorage.getItem('websocket')) {
   const router = useRouter();
   router.push('/login');
 }
 
 const query = ref(decodeURI(window.location.search.substring(8)))
-
-const socket = new WebSocket(query.value);
 const socketReady = ref(false);
 
 //UIの構成
 const UI = ref({});
 
-socket.onopen = function () {
-  console.log('WebSocket接続が確立されました');
-  socket.send(JSON.stringify({ type: { openServer: true } })); // サーバーにメッセージを送信
-};
-
-socket.onmessage = function (event) {
-  UI.value = JSON.parse(event.data);
-  console.log(event.data)
-  socketReady.value = true
-}
-
-socket.onclose = function () {
-  console.log('WebSocket接続がクローズされました');
-};
+//@ts-ignore
+fetch(query.value, {
+  method: 'POST', // POSTリクエストを指定
+  headers: {
+    'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+  },
+  body: JSON.stringify({ type: { openServer: true } }) // POSTデータをJSON形式に変換して指定
+})
+  .then(response => response.json())
+  .then(data => {
+    UI.value = data;
+    console.log(data)
+    socketReady.value = true
+  })
+  .catch(error => {
+    console.error('エラーが発生しました:', error);
+  });
 
 </script>
 
@@ -103,7 +104,7 @@ socket.onclose = function () {
   background-color: rgb(27, 88, 204);
 }
 
-.servers{
+.servers {
   overflow: hidden;
   height: calc(100vh - 92px);
 }

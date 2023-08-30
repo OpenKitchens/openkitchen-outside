@@ -8,28 +8,27 @@ const password = ref("")
 const login = () => {
   console.log("callSocket");
   //@ts-ignore
-  const socket = new WebSocket(websocket.value);
-
-  socket.onopen = function () {
-    console.log('WebSocket接続が確立されました');
-    socket.send(JSON.stringify({
+  fetch(websocket.value, {
+    method: 'POST', // POSTリクエストを指定
+    headers: {
+      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+    },
+    body: JSON.stringify({
       type: { login: true },
       username: username.value,
       password: password.value
-    })); // サーバーにメッセージを送信
-  }
-
-  socket.onmessage = function (event) {
-    console.log('サーバーからのメッセージ:', event.data);
-    //sessionStorage.setItem("uuid", event.data);
-    localStorage.setItem("token", event.data);
-    localStorage.setItem("websocket", websocket.value);
-    window.location.href = "/"
-  };
-
-  socket.onclose = function () {
-    console.log('WebSocket接続がクローズされました');
-  };
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('サーバーからのメッセージ:', data);
+      localStorage.setItem("token", data);
+      localStorage.setItem("websocket", websocket.value);
+      window.location.href = "/"
+    })
+    .catch(error => {
+      console.error('エラーが発生しました:', error);
+    });
 }
 
 </script>
@@ -44,7 +43,7 @@ const login = () => {
             <h1 class="card-title text-center">お帰りなさい👋</h1>
             <p class="text-center">Systemにログインしましょう</p>
             <div class="mb-3">
-              <input type="text" id="password" class="form-control" v-model="websocket" placeholder="websocketを入力"
+              <input type="text" id="password" class="form-control" v-model="websocket" placeholder="urlを入力"
                 required>
             </div>
             <div class="input-group mb-3">
