@@ -94,7 +94,7 @@ const callSocket = () => {
     })
       .then(response => response.json())
       .then(data => {
-        localStorage.setItem("token", data)
+        localStorage.setItem("token", data.data)
         switchNextCard(); // 次のカードに切り替える
       })
       .catch(error => {

@@ -22,7 +22,7 @@ const login = () => {
     .then(response => response.json())
     .then(data => {
       console.log('サーバーからのメッセージ:', data);
-      localStorage.setItem("token", data);
+      localStorage.setItem("token", data.data);
       localStorage.setItem("websocket", websocket.value);
       window.location.href = "/"
     })
