@@ -36,6 +36,12 @@ const router = createRouter({
       component: () => import('@/views/deck/server.vue')
     },
     {
+      //path: '/server/:socket',
+      path: '/thread',
+      name: 'thread',
+      component: () => import('@/views/deck/thread.vue')
+    },
+    {
       path: '/signIn',
       name: 'signIn',
       component: () => import('@/views/signIn.vue')
