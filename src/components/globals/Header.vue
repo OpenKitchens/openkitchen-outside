@@ -52,7 +52,7 @@ const submitForm = () => {
   isMessageValid.value = formData.message !== "";
 
   if (isTitleValid.value && isServerSelected.value && isMessageValid.value) {
-    
+
     console.log("接続先サーバー" + formData.selectedServer)
     //client鯖と通信する用
     //@ts-ignore
@@ -70,7 +70,10 @@ const submitForm = () => {
           socket: formData.selectedServer
         }
       ) // POSTデータをJSON形式に変換して指定
-    })
+    }).then(response => response.json())
+      .then(data => {
+        router.push('/thread?=' + data.data + '&' + localStorage.getItem('websocket'))
+      })
       .catch(error => {
         console.error('エラーが発生しました:', error);
       });
@@ -179,7 +182,7 @@ const submitForm = () => {
               </div>
             </div>
             <div class="col-12">
-              <button data-v-1e579dcb="" class="btn btn-primary" type="submit" style="width: 100%;">スレッドを投稿</button>
+              <button data-bs-dismiss="modal" class="btn btn-primary" type="submit" style="width: 100%;">スレッドを投稿</button>
             </div>
           </form>
         </div>

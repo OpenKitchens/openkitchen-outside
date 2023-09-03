@@ -39,7 +39,8 @@ fetch(query.value, {
 <template>
   <div class="holy-grail">
     <div class="holy-grail__main">
-      <div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">
+      <!--<div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">-->
+      <div class="container mt-4 holy-grail__middle" style="width: 100%; overflow-y: scroll; height: calc(100vh - 82px)">
         <div class="card servers">
           <div class="card-header text-center">
             {{ UI.title }}
@@ -60,9 +61,9 @@ fetch(query.value, {
         </div>
       </div>
 
-      <nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">
+      <!--<nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">
         <rightSideBar />
-      </nav>
+      </nav>-->
     </div>
   </div>
 </template>
@@ -121,7 +122,9 @@ fetch(query.value, {
   /* Layout the left sidebar, main content and right sidebar */
   display: flex;
   flex-direction: row;
-  margin-left: 150px;
+  /*margin-left: 150px;*/
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 .holy-grail__middle {

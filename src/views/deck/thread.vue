@@ -1,6 +1,5 @@
-<script setup lang="ts">
-import { ref, reactive } from "vue"
-import mainContent from "@/components/modules/mainContent.vue";
+<script setup>
+import { ref } from "vue"
 import rightSideBar from "@/components/modules/rightSideBar.vue";
 
 import { useRouter } from 'vue-router';
@@ -13,9 +12,11 @@ if (!localStorage.getItem('websocket')) {
 const uuid = ref(decodeURI(window.location.search.substring(2, 38)))
 const thread = ref(decodeURI(window.location.search.substring(39)))
 const socketReady = ref(false);
+const formData = ref("")
 
 //UIの構成
 const UI = ref({});
+const Reply = ref()
 
 //@ts-ignore
 fetch(thread.value, {
@@ -30,20 +31,63 @@ fetch(thread.value, {
     UI.value = data;
     console.log(data)
     socketReady.value = true
+    console.log(UI.value.data.threadMessage)
+    Reply.value = UI.value.data.threadMessage.map(jsonString => JSON.parse(jsonString));
   })
   .catch(error => {
     console.error('エラーが発生しました:', error);
   });
 
+
+//メッセージを送信
+//@ts-ignore
+function sendMessage() {
+  fetch(thread.value, {
+    method: 'POST', // POSTリクエストを指定
+    headers: {
+      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+    },
+    body: JSON.stringify({ type: { postMessage: true }, uuid: uuid.value, message: formData.value, icon: UI.value.myIconImage, name: UI.value.username }) // POSTデータをJSON形式に変換して指定
+  }).then(response => response.json())
+    .then(data => {
+      Reply.value = data.data.map(jsonString => JSON.parse(jsonString));
+
+      console.log(Reply.value)
+    })
+    .catch(error => {
+      console.error('エラーが発生しました:', error);
+    });
+}
+
+function getMessage() {
+  fetch(thread.value, {
+    method: 'POST', // POSTリクエストを指定
+    headers: {
+      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+    },
+    body: JSON.stringify({ type: { getMessage: true }, uuid: uuid.value }) // POSTデータをJSON形式に変換して指定
+  })
+    .then(response => response.json())
+    .then(data => {
+      Reply.value = data.data.map(jsonString => JSON.parse(jsonString));
+
+      console.log(Reply.value)
+    })
+    .catch(error => {
+      console.error('エラーが発生しました:', error);
+    });
+}
 </script>
 <template>
   <div class="holy-grail" v-if="socketReady">
     <div class="holy-grail__main">
-      <div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">
+      <!--<div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">-->
+      <div class="container mt-4 holy-grail__middle" style="width: 100%; overflow-y: scroll; height: calc(100vh - 82px)">
         <div class="card threads">
           <div class="thread-card">
             <img :src="UI.data.threadInfo.headerImage" class="card-img-top"
-              style="object-fit: cover; height: 350px;border-radius: 0;" v-if='UI.data.threadInfo.headerImage' alt="Sample Image">
+              style="object-fit: cover; height: 350px;border-radius: 0;" v-if='UI.data.threadInfo.headerImage'
+              alt="Sample Image">
             <div class="card-title">
               <div class="d-flex align-items-center thread-author">
                 <img :src="UI.data.threadInfo.myIcon" class="rounded-circle me-2 author-icon" alt="myName Avatar">
@@ -62,25 +106,32 @@ fetch(thread.value, {
               <li class="list-group-item">
                 <div class="input-group" style="width: 95%;margin: auto;">
                   <span class="input-group-text" id="addon-wrapping"><img :src="UI.myIconImage" class="user-image"></span>
-                  <input type="text" class="form-control" placeholder="テキストを入力" aria-label="Recipient's username"
+                  <input type="text" class="form-control" v-model="formData" placeholder="テキストを入力"
                     aria-describedby="button-addon2">
-                  <button class="btn btn-outline-secondary" type="button" id="button-addon2">リプライ</button>
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                    @click="sendMessage">リプライ</button>
                 </div>
               </li>
               <!--メッセージリプ欄-->
-              <ul class="list-group list-group-flush message">
-                <li class="list-group-item">
-                  test
-                </li>
-              </ul>
+              <li class="list-group-item">
+                <button class="btn btn-primary" type="button" @click="getMessage">リロード</button>
+              </li>
+              <li class="list-group-item" v-for="reply in Reply">
+                <div class="d-flex align-items-center thread-author">
+                  <img :src="reply.icon" class="rounded-circle me-2 author-icon sharp" alt="myName Avatar">
+                  <span class="fw-bold author-name sharp">{{ reply.name }}</span>
+                </div>
+                <p>{{ reply.message }}</p>
+              </li>
+              <li class="list-group-item"></li>
             </ul>
           </div>
         </div>
       </div>
 
-      <nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">
+      <!--<nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">
         <rightSideBar />
-      </nav>
+      </nav>-->
     </div>
   </div>
 </template>
@@ -140,7 +191,8 @@ fetch(thread.value, {
   /* Layout the left sidebar, main content and right sidebar */
   display: flex;
   flex-direction: row;
-  margin-left: 150px;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 .holy-grail__middle {
@@ -188,6 +240,15 @@ fetch(thread.value, {
   font-weight: lighter;
 }
 
+.author-icon.sharp {
+  width: 27px;
+  height: 27px;
+}
+
+.author-name.sharp {
+  font-size: 15px;
+}
+
 .card-body {
   margin: 0;
   padding: 20px;
@@ -206,5 +267,11 @@ fetch(thread.value, {
   border-radius: 50%;
   margin-top: 2.5px;
   margin-bottom: 2.5px;
+}
+
+.btn-primary {
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
 }
 </style>

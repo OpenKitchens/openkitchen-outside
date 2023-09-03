@@ -5,6 +5,16 @@
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item ellipsis">
+        <p>クイックキャストは後日実装予定</p>
+        <p>準備中...</p>
+        <img src="https://lh3.googleusercontent.com/a/AAcHTtfJxAxhupV-gaBkzvK52gbXss-IRzj8uk88IIg-aI5fYA=s96-c"
+          class="rounded-circle other-icon">
+        <span>openkitchen</span>
+      </li>
+    </ul>
+    <!--
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item ellipsis">
         <p>【戦争】きのこ共和国へのスレ占領</p>
         <img src="https://lh3.googleusercontent.com/a/AAcHTtfJxAxhupV-gaBkzvK52gbXss-IRzj8uk88IIg-aI5fYA=s96-c"
           class="rounded-circle other-icon">
@@ -41,6 +51,7 @@
         <span>openkitchen</span>
       </li>
     </ul>
+    -->
     <div class="card-footer create-quickCast text-center">
       クイックキャストを作成
     </div>

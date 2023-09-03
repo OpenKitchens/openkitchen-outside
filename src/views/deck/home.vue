@@ -53,8 +53,9 @@ fetch(localStorage.getItem('websocket'), {
       </article>
 
       <!-- Right sidebar -->
-      <nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">
-        <rightSideBar />
+      <!--<nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">-->
+      <nav class="holy-grail__right" style="overflow-y: scroll;">
+        <!--<rightSideBar />-->
       </nav>
     </main>
     <footer></footer>
@@ -77,8 +78,9 @@ fetch(localStorage.getItem('websocket'), {
 }
 
 .holy-grail__left {
-  width: calc(27.5% - 30px);
-  margin-left: 60px;
+  width: calc(25.5% - 30px);
+  /*margin-right: 60px;*/
+  margin-left: 120px;
 }
 
 .holy-grail__middle {
@@ -87,8 +89,9 @@ fetch(localStorage.getItem('websocket'), {
 }
 
 .holy-grail__right {
-  width: calc(27.5% - 30px);
-  margin-right: 60px;
+  /*width: calc(27.5% - 30px);*/
+  /*margin-right: 60px;*/
+  margin-left: 170px;
 }
 
 .holy-grail__left::-webkit-scrollbar {
