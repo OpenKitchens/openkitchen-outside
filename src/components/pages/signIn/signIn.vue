@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
 const currentCardIndex = ref(0);
@@ -20,12 +20,14 @@ const cards = [
   { title: 'もう少しアナタの過去を探索します', text: 'プロフィールでアナタについて教えてください' },
   { title: '自分だけのサーバーを作成しましょう', text: '自分だけのコミュニティ。広大なネットの中にたったひとつの草の根を' },
   { title: 'アカウントを作成しました', text: 'ノスタルジーに逃げ込みたい。草の根WSSへようこそ' },
+  { title: 'アカウントを作成しました', text: 'ノスタルジーに逃げ込みたい。草の根WSSへようこそ' },
   // 必要に応じて追加のカードをここに追加
 ];
 
-const switchNextCard = () => {
+function switchNextCard() {
   if (currentCardIndex.value < cards.length - 1) {
     currentCardIndex.value++;
+    console.log(currentCardIndex)
   } else {
     currentCardIndex.value = 0;
   }
@@ -33,7 +35,7 @@ const switchNextCard = () => {
 
 const specialInput = ref("");
 
-const callSocket = () => {
+function callSocket() {
   console.log("callSocket");
 
   fetch(websocket.value, {
@@ -48,59 +50,61 @@ const callSocket = () => {
     .then(response => response.json())
     .then(data => {
       console.log('サーバーからのメッセージ:', data);
+      localStorage.setItem("websocket", websocket.value)
       switchNextCard(); // 次のカードに切り替える
     })
     .catch(error => {
       console.error('エラーが発生しました:', error);
     });
+}
 
-  const switchNextCardAndPerformAction = () => {
-    if (currentCardIndex.value === 1) {
-      callSocket(); // 特別な処理を実行
-    } else if (currentCardIndex.value === 4) {
-      console.log("4")
-      createAccount(); // 特別な処理を実行
-    } else {
-      switchNextCard(); // 次のカードに切り替える
-    }
-  };
-
-  const callSocketAndNextCard = () => {
-    callSocket(); // WebSocketを呼び出す
+function switchNextCardAndPerformAction() {
+  if (currentCardIndex.value === 1) {
+    callSocket(); // 特別な処理を実行
+  } else if (currentCardIndex.value === 4) {
+    console.log("4")
+    createAccount(); // 特別な処理を実行
+  } else {
     switchNextCard(); // 次のカードに切り替える
   }
+};
 
-  const createAccount = () => {
-    console.log("callSocket");
+function callSocketAndNextCard() {
+  callSocket(); // WebSocketを呼び出す
+  switchNextCard(); // 次のカードに切り替える
+  console.log("click")
+}
 
-    fetch(websocket.value, {
-      method: 'POST', // POSTリクエストを指定
-      headers: {
-        'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
-      },
-      body: JSON.stringify({
-        type: { createAccount: true },
-        username: username.value,
-        password: password.value,
-        socket: websocket.value,
-        myIconImage: myIconImage.value,
-        emoji: serverIcon.value,
-        myHeaderImage: myHeaderImage.value,
-        myBio: myBio.value,
-        serverIconImage: serverIconImage.value,
-        serverInformation: serverInformation.value,
-        servername: servername.value
-      })
+function createAccount() {
+  console.log("callSocket");
+
+  fetch(websocket.value, {
+    method: 'POST', // POSTリクエストを指定
+    headers: {
+      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+    },
+    body: JSON.stringify({
+      type: { createAccount: true },
+      username: username.value,
+      password: password.value,
+      socket: websocket.value,
+      myIconImage: myIconImage.value,
+      emoji: serverIcon.value,
+      myHeaderImage: myHeaderImage.value,
+      myBio: myBio.value,
+      serverIconImage: serverIconImage.value,
+      serverInformation: serverInformation.value,
+      servername: servername.value
     })
-      .then(response => response.json())
-      .then(data => {
-        localStorage.setItem("token", data.data)
-        switchNextCard(); // 次のカードに切り替える
-      })
-      .catch(error => {
-        console.error('エラーが発生しました:', error);
-      });
-  }
+  })
+    .then(response => response.json())
+    .then(data => {
+      localStorage.setItem("token", data.data)
+      switchNextCard(); // 次のカードに切り替える
+    })
+    .catch(error => {
+      console.error('エラーが発生しました:', error);
+    });
 }
 </script>
 

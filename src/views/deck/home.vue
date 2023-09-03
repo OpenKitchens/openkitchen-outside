@@ -1,7 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import leftSideBar from "@/components/modules/leftSideBar.vue";
 import mainContent from "@/components/modules/mainContent.vue";
-import rightSideBar from "@/components/modules/rightSideBar.vue";
 import { ref } from "vue";
 
 import { useRouter } from 'vue-router';
@@ -43,8 +42,8 @@ fetch(localStorage.getItem('websocket'), {
     <main class="holy-grail__main">
       <!-- Left sidebar -->
       <aside class="holy-grail__left" style="overflow-y: scroll; height: 100%">
-        <leftSideBar :myName="(UI.myName as string)" :myHash="(UI.myHash as string)" :myHeader="(UI.myHeader as string)"
-          :myIcon="(UI.myIcon as string)" :myBio="(UI.myBio as string)" :friends="UI.friends" :servers="UI.servers" />
+        <leftSideBar :myName="UI.myName" :myHash="UI.myHash" :myHeader="UI.myHeader"
+          :myIcon="UI.myIcon" :myBio="UI.myBio" :friends="UI.friends" :servers="UI.servers" />
       </aside>
 
       <!-- Main content -->
