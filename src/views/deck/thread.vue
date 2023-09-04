@@ -274,4 +274,11 @@ function getMessage() {
   margin-left: 25%;
   margin-right: 25%;
 }
+
+@media screen and (max-width: 1112px) {
+  .holy-grail__main{
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
 </style>

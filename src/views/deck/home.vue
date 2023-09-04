@@ -42,8 +42,8 @@ fetch(localStorage.getItem('websocket'), {
     <main class="holy-grail__main">
       <!-- Left sidebar -->
       <aside class="holy-grail__left" style="overflow-y: scroll; height: 100%">
-        <leftSideBar :myName="UI.myName" :myHash="UI.myHash" :myHeader="UI.myHeader"
-          :myIcon="UI.myIcon" :myBio="UI.myBio" :friends="UI.friends" :servers="UI.servers" />
+        <leftSideBar :myName="UI.myName" :myHash="UI.myHash" :myHeader="UI.myHeader" :myIcon="UI.myIcon" :myBio="UI.myBio"
+          :friends="UI.friends" :servers="UI.servers" />
       </aside>
 
       <!-- Main content -->
@@ -103,5 +103,19 @@ fetch(localStorage.getItem('websocket'), {
 
 .holy-grail__right::-webkit-scrollbar {
   display: none;
+}
+
+@media screen and (max-width: 1112px) {
+  .holy-grail__left {
+    width: calc(25.5% - 30px);
+    /*margin-right: 60px;*/
+    margin-left: 30px;
+  }
+
+  .holy-grail__right {
+    /*width: calc(27.5% - 30px);*/
+    /*margin-right: 60px;*/
+    margin-left: 10px;
+  }
 }
 </style>
