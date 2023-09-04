@@ -27,7 +27,7 @@ defineProps<{
             <img :src="thread.myIcon" class="rounded-circle me-2 author-icon" alt="myName Avatar">
             <span class="fw-bold author-name">{{ thread.myName }}</span>
           </div>
-          <h5 class="card-title card-title-small" style="font-size: 1.25rem;"><router-link :to="'/thread?='+thread.uuid+'&'+thread.socket" style="color: white">{{ thread.title }}</router-link></h5>
+          <h5 class="card-title card-title-small" style="font-size: 1.25rem;font-weight: bold;"><router-link :to="'/thread?='+thread.uuid+'&'+thread.socket" style="color: white">{{ thread.title }}</router-link></h5>
         </div>
         <div class="card-footer">
           <small class="text-muted">{{ thread.serverEmoji }} {{ thread.serverName }}</small>
