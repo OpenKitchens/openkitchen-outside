@@ -83,4 +83,9 @@ defineProps<{
   padding: 10px 20px;
   margin: 0;
 }
+@media screen and (max-width: 480px) {
+  .card-img-top{
+    height: 200px !important;
+  }
+}
 </style>

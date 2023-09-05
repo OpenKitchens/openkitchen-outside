@@ -118,4 +118,15 @@ fetch(localStorage.getItem('websocket'), {
     margin-left: 10px;
   }
 }
+
+
+@media screen and (max-width: 480px) {
+  .holy-grail__main{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .holy-grail__left{
+    display: none;
+  }
+}
 </style>

@@ -281,4 +281,20 @@ function getMessage() {
     margin-right: 10%;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .holy-grail__main{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .input-group-text{
+    display: none;
+  }
+  .card-img-top{
+    height: 200px !important;
+  }
+  .form-control{
+    border-radius: 6px 0 0 6px !important;
+  }
+}
 </style>
