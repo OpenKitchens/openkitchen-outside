@@ -87,7 +87,7 @@ defineProps<{
   .card-img-top{
     height: 200px !important;
   }
-  h5 {
+  .card-title{
     padding-bottom: 5px !important;
     padding-left: 10px !important;
     padding-right: 10px !important;

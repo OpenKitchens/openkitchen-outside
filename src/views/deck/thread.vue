@@ -300,7 +300,7 @@ function getMessage() {
     border-radius: 6px 0 0 6px !important;
   }
 
-  h3 {
+  .card-title {
     padding-bottom: 5px !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
