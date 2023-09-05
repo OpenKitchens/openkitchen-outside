@@ -88,10 +88,10 @@ defineProps<{
     height: 200px !important;
   }
   h5 {
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
+    padding-bottom: 5px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 5px !important;
   }
 }
 </style>
