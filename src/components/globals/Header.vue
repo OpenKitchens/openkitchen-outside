@@ -235,4 +235,10 @@ img {
   background-color: rgb(44, 41, 37) !important;
   border: solid 1px #444;
 }
+
+@media screen and (max-width: 480px) {
+  .code{
+    display: none;
+  }
+}
 </style>
