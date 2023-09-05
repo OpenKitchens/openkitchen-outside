@@ -276,25 +276,40 @@ function getMessage() {
 }
 
 @media screen and (max-width: 1112px) {
-  .holy-grail__main{
+  .holy-grail__main {
     margin-left: 10%;
     margin-right: 10%;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .holy-grail__main{
-    margin-left: 10px;
-    margin-right: 10px;
+  .holy-grail__main {
+    margin-left: 5px;
+    margin-right: 5px;
   }
-  .input-group-text{
+
+  .input-group-text {
     display: none;
   }
-  .card-img-top{
+
+  .card-img-top {
     height: 200px !important;
   }
-  .form-control{
+
+  .form-control {
     border-radius: 6px 0 0 6px !important;
   }
-}
-</style>
+
+  h3 {
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+  }
+  p.mt-4{
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+  }
+}</style>
