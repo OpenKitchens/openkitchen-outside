@@ -96,7 +96,7 @@ function getMessage() {
               <h3 class="mt-4" style="font-weight: 900;">{{ UI.data.threadInfo.title }}</h3>
             </div>
             <div class="card-body">
-              <div class="holy-grail__middle mt-3">
+              <div class="holy-grail__middle">
                 <p class="mt-4" style="font-weight: 900;">{{ UI.data.threadInfo.message }}</p>
               </div>
             </div>
@@ -301,15 +301,17 @@ function getMessage() {
   }
 
   .card-title {
-    padding-bottom: 5px !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    padding-top: 5px !important;
+    padding: 20px 25px !important;
   }
-  p.mt-4{
-    padding-bottom: 5px !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    padding-top: 5px !important;
+
+  p.mt-4 {
+    margin: 0 !important;
+    padding: 0 !important;
   }
-}</style>
+
+  .card-body {
+    padding: 15px 25px;
+  }
+
+}
+</style>
