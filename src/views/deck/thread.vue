@@ -310,7 +310,7 @@ function getMessage() {
   }
 
   .card-body {
-    padding: 15px 25px;
+    padding: 15px 25px !important;
   }
 
 }
