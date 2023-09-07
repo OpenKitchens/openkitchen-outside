@@ -1,53 +1,59 @@
 <script setup>
-import { ref, reactive } from "vue"
-import mainContent from "@/components/modules/mainContent.vue";
-import rightSideBar from "@/components/modules/rightSideBar.vue";
+import { ref, reactive } from 'vue'
+import mainContent from '@/components/modules/mainContent.vue'
+import rightSideBar from '@/components/modules/rightSideBar.vue'
 
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
-if(!localStorage.getItem('websocket')){
-  const router = useRouter();
-  router.push('/login');
+if (!localStorage.getItem('websocket')) {
+  const router = useRouter()
+  router.push('/login')
 }
 
 const query = ref(decodeURI(window.location.search.substring(8)))
 
-const socket = new WebSocket(query.value);
-const socketReady = ref(false);
+const socket = new WebSocket(query.value)
+const socketReady = ref(false)
 
 //UIの構成
-const UI = ref({});
+const UI = ref({})
 
 socket.onopen = function () {
-  console.log('WebSocket接続が確立されました');
-  socket.send(JSON.stringify({ type: { openServer: true } })); // サーバーにメッセージを送信
-};
+  console.log('WebSocket接続が確立されました')
+  socket.send(JSON.stringify({ type: { openServer: true } })) // サーバーにメッセージを送信
+}
 
 socket.onmessage = function (event) {
-  UI.value = JSON.parse(event.data);
+  UI.value = JSON.parse(event.data)
   console.log(event.data)
   socketReady.value = true
 }
 
 socket.onclose = function () {
-  console.log('WebSocket接続がクローズされました');
-};
-
+  console.log('WebSocket接続がクローズされました')
+}
 </script>
 
 <template>
   <div class="holy-grail">
     <div class="holy-grail__main">
-      <div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">
+      <div
+        class="container mt-4 holy-grail__middle"
+        style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)"
+      >
         <div class="card servers">
           <div class="card-header text-center">
             {{ UI.title }}
           </div>
           <div class="server-card">
-            <img :src="UI.image" class="card-img-top" style="object-fit: cover; height: 200px;border-radius: 0;"
-              alt="Sample Image">
+            <img
+              :src="UI.image"
+              class="card-img-top"
+              style="object-fit: cover; height: 200px; border-radius: 0"
+              alt="loading"
+            />
             <div class="card-title">
-              <h4 class="mt-3" style="font-weight: bold;">{{ UI.emoji }} {{ UI.title }}</h4>
+              <h4 class="mt-3" style="font-weight: bold">{{ UI.emoji }} {{ UI.title }}</h4>
               <p class="mt-3">{{ UI.serverInformation }}</p>
             </div>
             <div class="card-body">
@@ -103,7 +109,7 @@ socket.onclose = function () {
   background-color: rgb(27, 88, 204);
 }
 
-.servers{
+.servers {
   overflow: hidden;
   height: calc(100vh - 92px);
 }
@@ -148,5 +154,15 @@ socket.onclose = function () {
 .card-header {
   font-size: 20px;
   font-weight: bold;
+}
+
+@media screen and (min-width: 960px) {
+  .holy-grail__right {
+    margin-right: 60px;
+    width: 30%;
+  }
+  .holy-grail__main {
+    margin-left: 60px;
+  }
 }
 </style>
