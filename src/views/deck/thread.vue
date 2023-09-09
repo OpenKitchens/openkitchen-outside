@@ -78,6 +78,7 @@ function sendMessage() {
       Reply.value = data.data.map((jsonString) => JSON.parse(jsonString))
 
       console.log(Reply.value)
+      formData.value = ""
     })
     .catch((error) => {
       console.error('エラーが発生しました:', error)
