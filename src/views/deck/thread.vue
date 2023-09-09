@@ -84,7 +84,7 @@ function sendMessage() {
       console.log(Reply.value)
       formData.value = ""
       ReplyButton.value = "リプライ"
-      isProcessing.value = true
+      isProcessing.value =false
     })
     .catch((error) => {
       console.error('エラーが発生しました:', error)
