@@ -19,6 +19,7 @@ const UI = ref({})
 const Me = ref({})
 const Reply = ref()
 const ReplyButton = ref("リプライ")
+const isProcessing = ref(true)
 
 //@ts-ignore
 fetch(thread.value, {
@@ -62,6 +63,7 @@ fetch(localStorage.getItem('websocket'), {
 //@ts-ignore
 function sendMessage() {
   ReplyButton.value = "送信中..."
+  isProcessing.value = false
   fetch(thread.value, {
     method: 'POST', // POSTリクエストを指定
     headers: {
@@ -82,6 +84,7 @@ function sendMessage() {
       console.log(Reply.value)
       formData.value = ""
       ReplyButton.value = "リプライ"
+      isProcessing.value = true
     })
     .catch((error) => {
       console.error('エラーが発生しました:', error)
@@ -164,6 +167,7 @@ setInterval(() => {   getMessage() }, 10000);
                     type="button"
                     id="button-addon2"
                     @click="sendMessage"
+                    :disabled="isProcessing"
                   >
                     {{ ReplyButton }}
                   </button>
