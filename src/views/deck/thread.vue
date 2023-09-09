@@ -19,7 +19,7 @@ const UI = ref({})
 const Me = ref({})
 const Reply = ref()
 const ReplyButton = ref("リプライ")
-const isProcessing = ref(true)
+const isProcessing = ref(false)
 
 //@ts-ignore
 fetch(thread.value, {
