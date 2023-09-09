@@ -18,6 +18,7 @@ const formData = ref('')
 const UI = ref({})
 const Me = ref({})
 const Reply = ref()
+const ReplyButton = ref("リプライ")
 
 //@ts-ignore
 fetch(thread.value, {
@@ -60,6 +61,7 @@ fetch(localStorage.getItem('websocket'), {
 //メッセージを送信
 //@ts-ignore
 function sendMessage() {
+  ReplyButton.value = "送信中..."
   fetch(thread.value, {
     method: 'POST', // POSTリクエストを指定
     headers: {
@@ -79,6 +81,7 @@ function sendMessage() {
 
       console.log(Reply.value)
       formData.value = ""
+      ReplyButton.value = "リプライ"
     })
     .catch((error) => {
       console.error('エラーが発生しました:', error)
@@ -162,7 +165,7 @@ setInterval(() => {   getMessage() }, 10000);
                     id="button-addon2"
                     @click="sendMessage"
                   >
-                    リプライ
+                    {{ ReplyButton }}
                   </button>
                 </div>
               </li>
