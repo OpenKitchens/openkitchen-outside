@@ -62,33 +62,35 @@ fetch(localStorage.getItem('websocket'), {
 //メッセージを送信
 //@ts-ignore
 function sendMessage() {
-  ReplyButton.value = "送信中..."
-  //isProcessing.value = false
-  fetch(thread.value, {
-    method: 'POST', // POSTリクエストを指定
-    headers: {
-      'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
-    },
-    body: JSON.stringify({
-      type: { postMessage: true },
-      uuid: uuid.value,
-      message: formData.value,
-      icon: Me.value.myIcon,
-      name: Me.value.myName
-    }) // POSTデータをJSON形式に変換して指定
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      Reply.value = data.data.map((jsonString) => JSON.parse(jsonString))
+  if (formData.value != "") {
+    ReplyButton.value = "送信中..."
+    isProcessing.value = true
+    fetch(thread.value, {
+      method: 'POST', // POSTリクエストを指定
+      headers: {
+        'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+      },
+      body: JSON.stringify({
+        type: { postMessage: true },
+        uuid: uuid.value,
+        message: formData.value,
+        icon: Me.value.myIcon,
+        name: Me.value.myName
+      }) // POSTデータをJSON形式に変換して指定
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        Reply.value = data.data.map((jsonString) => JSON.parse(jsonString))
 
-      console.log(Reply.value)
-      formData.value = ""
-      ReplyButton.value = "リプライ"
-      //isProcessing.value = false
-    })
-    .catch((error) => {
-      console.error('エラーが発生しました:', error)
-    })
+        console.log(Reply.value)
+        formData.value = ""
+        ReplyButton.value = "リプライ"
+        isProcessing.value = false
+      })
+      .catch((error) => {
+        console.error('エラーが発生しました:', error)
+      })
+  }
 }
 
 function getMessage() {
@@ -111,40 +113,29 @@ function getMessage() {
 }
 
 
-setInterval(() => {   getMessage() }, 10000);
+setInterval(() => { getMessage() }, 10000);
 
 </script>
 <template>
   <div class="holy-grail" v-if="socketReady">
     <div class="holy-grail__main">
       <!--<div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">-->
-      <div
-        class="container mt-4 holy-grail__middle"
-        style="width: 100%; overflow-y: scroll; height: calc(100vh - 82px)"
-      >
+      <div class="container mt-4 holy-grail__middle" style="width: 100%; overflow-y: scroll; height: calc(100vh - 82px)">
         <div class="card threads">
           <div class="thread-card">
-            <img
-              :src="UI.data.threadInfo.headerImage"
-              class="card-img-top"
-              style="object-fit: cover; height: 350px; border-radius: 0"
-              v-if="UI.data.threadInfo.headerImage"
-              alt="Sample Image"
-            />
+            <img :src="UI.data.threadInfo.headerImage" class="card-img-top"
+              style="object-fit: cover; height: 350px; border-radius: 0" v-if="UI.data.threadInfo.headerImage"
+              alt="Sample Image" />
             <div class="card-title">
               <div class="d-flex align-items-center thread-author">
-                <img
-                  :src="UI.data.threadInfo.myIcon"
-                  class="rounded-circle me-2 author-icon"
-                  alt="myName Avatar"
-                />
+                <img :src="UI.data.threadInfo.myIcon" class="rounded-circle me-2 author-icon" alt="myName Avatar" />
                 <span class="fw-bold author-name">{{ UI.data.threadInfo.myName }}</span>
               </div>
               <h3 class="mt-4" style="font-weight: 900">{{ UI.data.threadInfo.title }}</h3>
             </div>
             <div class="card-body">
               <div class="holy-grail__middle">
-                <p class="mt-4" style="font-weight: 900">{{ UI.data.threadInfo.message }}</p>
+                <p class="mt-4" style="font-weight: 900;white-space: pre-wrap">{{ UI.data.threadInfo.message }}</p>
               </div>
             </div>
 
@@ -152,23 +143,11 @@ setInterval(() => {   getMessage() }, 10000);
               <li class="list-group-item"></li>
               <li class="list-group-item">
                 <div class="input-group" style="width: 95%; margin: auto">
-                  <span class="input-group-text" id="addon-wrapping"
-                    ><img :src="Me.myIcon" class="user-image"
-                  /></span>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="formData"
-                    placeholder="テキストを入力"
-                    aria-describedby="button-addon2"
-                  />
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    id="button-addon2"
-                    @click="sendMessage"
-                    :disabled="isProcessing"
-                  >
+                  <span class="input-group-text" id="addon-wrapping"><img :src="Me.myIcon" class="user-image" /></span>
+                  <input type="text" class="form-control" v-model="formData" placeholder="テキストを入力"
+                    aria-describedby="button-addon2" />
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="sendMessage"
+                    :disabled="isProcessing">
                     {{ ReplyButton }}
                   </button>
                 </div>
@@ -179,11 +158,7 @@ setInterval(() => {   getMessage() }, 10000);
               </li>
               <li class="list-group-item" v-for="reply in Reply">
                 <div class="d-flex align-items-center thread-author">
-                  <img
-                    :src="reply.icon"
-                    class="rounded-circle me-2 author-icon sharp"
-                    alt="myName Avatar"
-                  />
+                  <img :src="reply.icon" class="rounded-circle me-2 author-icon sharp" alt="myName Avatar" />
                   <span class="fw-bold author-name sharp">{{ reply.name }}</span>
                 </div>
                 <p>{{ reply.message }}</p>
