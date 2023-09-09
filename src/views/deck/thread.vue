@@ -63,7 +63,7 @@ fetch(localStorage.getItem('websocket'), {
 //@ts-ignore
 function sendMessage() {
   ReplyButton.value = "送信中..."
-  isProcessing.value = false
+  //isProcessing.value = false
   fetch(thread.value, {
     method: 'POST', // POSTリクエストを指定
     headers: {
@@ -84,7 +84,7 @@ function sendMessage() {
       console.log(Reply.value)
       formData.value = ""
       ReplyButton.value = "リプライ"
-      isProcessing.value =false
+      //isProcessing.value = false
     })
     .catch((error) => {
       console.error('エラーが発生しました:', error)
