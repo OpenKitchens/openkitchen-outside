@@ -1,21 +1,22 @@
 <script setup>
-import { ref } from "vue"
-import rightSideBar from "@/components/modules/rightSideBar.vue";
+import { ref } from 'vue'
+import rightSideBar from '@/components/modules/rightSideBar.vue'
 
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 if (!localStorage.getItem('websocket')) {
-  const router = useRouter();
-  router.push('/login');
+  const router = useRouter()
+  router.push('/login')
 }
 
 const uuid = ref(decodeURI(window.location.search.substring(2, 38)))
 const thread = ref(decodeURI(window.location.search.substring(39)))
-const socketReady = ref(false);
-const formData = ref("")
+const socketReady = ref(false)
+const formData = ref('')
 
 //UIの構成
-const UI = ref({});
+const UI = ref({})
+const Me = ref({})
 const Reply = ref()
 
 //@ts-ignore
@@ -26,18 +27,35 @@ fetch(thread.value, {
   },
   body: JSON.stringify({ type: { getThread: true }, uuid: uuid.value }) // POSTデータをJSON形式に変換して指定
 })
-  .then(response => response.json())
-  .then(data => {
-    UI.value = data;
+  .then((response) => response.json())
+  .then((data) => {
+    UI.value = data
     console.log(data)
     socketReady.value = true
     console.log(UI.value.data.threadMessage)
-    Reply.value = UI.value.data.threadMessage.map(jsonString => JSON.parse(jsonString));
+    Reply.value = UI.value.data.threadMessage.map((jsonString) => JSON.parse(jsonString))
   })
-  .catch(error => {
-    console.error('エラーが発生しました:', error);
-  });
+  .catch((error) => {
+    console.error('エラーが発生しました:', error)
+  })
 
+//自分のiconを取得
+fetch(localStorage.getItem('websocket'), {
+  method: 'POST', // POSTリクエストを指定
+  headers: {
+    'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
+  },
+  body: JSON.stringify({ type: { renderingEngine: true } }) // POSTデータをJSON形式に変換して指定
+})
+  .then((response) => response.json())
+  .then((data) => {
+    Me.value = data
+    console.log(data)
+    socketReady.value = true
+  })
+  .catch((error) => {
+    console.error('エラーが発生しました:', error)
+  })
 
 //メッセージを送信
 //@ts-ignore
@@ -47,16 +65,23 @@ function sendMessage() {
     headers: {
       'Content-Type': 'application/json' // リクエストのコンテンツタイプを指定
     },
-    body: JSON.stringify({ type: { postMessage: true }, uuid: uuid.value, message: formData.value, icon: UI.value.myIconImage, name: UI.value.username }) // POSTデータをJSON形式に変換して指定
-  }).then(response => response.json())
-    .then(data => {
-      Reply.value = data.data.map(jsonString => JSON.parse(jsonString));
+    body: JSON.stringify({
+      type: { postMessage: true },
+      uuid: uuid.value,
+      message: formData.value,
+      icon: Me.value.myIcon,
+      name: Me.value.myName
+    }) // POSTデータをJSON形式に変換して指定
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      Reply.value = data.data.map((jsonString) => JSON.parse(jsonString))
 
       console.log(Reply.value)
     })
-    .catch(error => {
-      console.error('エラーが発生しました:', error);
-    });
+    .catch((error) => {
+      console.error('エラーが発生しました:', error)
+    })
 }
 
 function getMessage() {
@@ -67,49 +92,77 @@ function getMessage() {
     },
     body: JSON.stringify({ type: { getMessage: true }, uuid: uuid.value }) // POSTデータをJSON形式に変換して指定
   })
-    .then(response => response.json())
-    .then(data => {
-      Reply.value = data.data.map(jsonString => JSON.parse(jsonString));
+    .then((response) => response.json())
+    .then((data) => {
+      Reply.value = data.data.map((jsonString) => JSON.parse(jsonString))
 
       console.log(Reply.value)
     })
-    .catch(error => {
-      console.error('エラーが発生しました:', error);
-    });
+    .catch((error) => {
+      console.error('エラーが発生しました:', error)
+    })
 }
+
+
+setInterval(() => {   getMessage() }, 10000);
+
 </script>
 <template>
   <div class="holy-grail" v-if="socketReady">
     <div class="holy-grail__main">
       <!--<div class="container mt-4 holy-grail__middle" style="width: 65%; overflow-y: scroll; height: calc(100vh - 82px)">-->
-      <div class="container mt-4 holy-grail__middle" style="width: 100%; overflow-y: scroll; height: calc(100vh - 82px)">
+      <div
+        class="container mt-4 holy-grail__middle"
+        style="width: 100%; overflow-y: scroll; height: calc(100vh - 82px)"
+      >
         <div class="card threads">
           <div class="thread-card">
-            <img :src="UI.data.threadInfo.headerImage" class="card-img-top"
-              style="object-fit: cover; height: 350px;border-radius: 0;" v-if='UI.data.threadInfo.headerImage'
-              alt="Sample Image">
+            <img
+              :src="UI.data.threadInfo.headerImage"
+              class="card-img-top"
+              style="object-fit: cover; height: 350px; border-radius: 0"
+              v-if="UI.data.threadInfo.headerImage"
+              alt="Sample Image"
+            />
             <div class="card-title">
               <div class="d-flex align-items-center thread-author">
-                <img :src="UI.data.threadInfo.myIcon" class="rounded-circle me-2 author-icon" alt="myName Avatar">
+                <img
+                  :src="UI.data.threadInfo.myIcon"
+                  class="rounded-circle me-2 author-icon"
+                  alt="myName Avatar"
+                />
                 <span class="fw-bold author-name">{{ UI.data.threadInfo.myName }}</span>
               </div>
-              <h3 class="mt-4" style="font-weight: 900;">{{ UI.data.threadInfo.title }}</h3>
+              <h3 class="mt-4" style="font-weight: 900">{{ UI.data.threadInfo.title }}</h3>
             </div>
             <div class="card-body">
               <div class="holy-grail__middle">
-                <p class="mt-4" style="font-weight: 900;">{{ UI.data.threadInfo.message }}</p>
+                <p class="mt-4" style="font-weight: 900">{{ UI.data.threadInfo.message }}</p>
               </div>
             </div>
 
             <ul class="list-group list-group-flush">
               <li class="list-group-item"></li>
               <li class="list-group-item">
-                <div class="input-group" style="width: 95%;margin: auto;">
-                  <span class="input-group-text" id="addon-wrapping"><img :src="UI.myIconImage" class="user-image"></span>
-                  <input type="text" class="form-control" v-model="formData" placeholder="テキストを入力"
-                    aria-describedby="button-addon2">
-                  <button class="btn btn-outline-secondary" type="button" id="button-addon2"
-                    @click="sendMessage">リプライ</button>
+                <div class="input-group" style="width: 95%; margin: auto">
+                  <span class="input-group-text" id="addon-wrapping"
+                    ><img :src="Me.myIcon" class="user-image"
+                  /></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="formData"
+                    placeholder="テキストを入力"
+                    aria-describedby="button-addon2"
+                  />
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                    @click="sendMessage"
+                  >
+                    リプライ
+                  </button>
                 </div>
               </li>
               <!--メッセージリプ欄-->
@@ -118,7 +171,11 @@ function getMessage() {
               </li>
               <li class="list-group-item" v-for="reply in Reply">
                 <div class="d-flex align-items-center thread-author">
-                  <img :src="reply.icon" class="rounded-circle me-2 author-icon sharp" alt="myName Avatar">
+                  <img
+                    :src="reply.icon"
+                    class="rounded-circle me-2 author-icon sharp"
+                    alt="myName Avatar"
+                  />
                   <span class="fw-bold author-name sharp">{{ reply.name }}</span>
                 </div>
                 <p>{{ reply.message }}</p>
@@ -135,7 +192,6 @@ function getMessage() {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .header {
@@ -312,6 +368,5 @@ function getMessage() {
   .card-body {
     padding: 15px 25px !important;
   }
-
 }
 </style>
