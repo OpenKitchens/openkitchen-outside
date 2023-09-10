@@ -7,7 +7,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <Header v-if='route.path != "/signIn" && route.path != "/login"' />
+  <Header v-if='route.path != "/signIn" && route.path != "/login" && route.path != "/about"' />
   <RouterView />
 </template>
 

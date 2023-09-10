@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 
 if (!localStorage.getItem('websocket')) {
   const router = useRouter();
-  router.push('/login');
+  router.push('/about');
 }
 
 // WebSocketの接続状態を追跡するref

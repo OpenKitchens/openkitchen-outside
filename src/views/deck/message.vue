@@ -5,7 +5,7 @@ const route = useRoute();
 
 if(!localStorage.getItem('websocket')){
   const router = useRouter();
-  router.push('/login');
+  router.push('/about');
 }
 </script>
 

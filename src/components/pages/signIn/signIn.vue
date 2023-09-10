@@ -14,8 +14,8 @@ const serverInformation = ref("")
 const myBio = ref("")
 
 const cards = [
-  { title: 'さぁ冒険に出よう', text: 'Client鯖はどこですか？Client鯖のwebsocketを入力してください' },
-  { title: 'これが本当に君の鯖？', text: 'Client鯖にコールしています' },
+  { title: 'さぁ冒険に出よう', text: 'instanceはどこですか？instanceのurlを入力してください' },
+  { title: 'これが本当に君の鯖？', text: 'instanceにコールしています' },
   { title: '夏のあの日を思い出して', text: 'ユーザー名とパスワードを入力してアカウントを作成してください' },
   { title: 'もう少しアナタの過去を探索します', text: 'プロフィールでアナタについて教えてください' },
   { title: '自分だけのサーバーを作成しましょう', text: '自分だけのコミュニティ。広大なネットの中にたったひとつの草の根を' },

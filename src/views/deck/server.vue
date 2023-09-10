@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 
 if (!localStorage.getItem('websocket')) {
   const router = useRouter();
-  router.push('/login');
+  router.push('/about');
 }
 
 const query = ref(decodeURI(window.location.search.substring(8)))
