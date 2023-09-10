@@ -12,7 +12,8 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent" style="position: absolute; left: 50vw; transform: translateX(-50%);">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent"
+            style="position: absolute; left: 50vw; transform: translateX(-50%);">
             <ul class="navbar-nav mb-2 mb-lg-0" style="margin-left: 20px;">
               <li class="nav-item">
                 仕組みについて
@@ -51,7 +52,8 @@
             <img src="/image/lofi.jpg" class="card-img-top" alt="instance" height="230">
             <div class="card-body">
               <h5>1. GitHubからInstanceを取得</h5>
-              <p><a href="https://github.com/OpenKitchens/clientserver" target="_blank">ここ</a>からインスタンスのリポジトリをフォークまたはダウンロードしよう</p>
+              <p><a href="https://github.com/OpenKitchens/clientserver"
+                  target="_blank">ここ</a>からインスタンスのリポジトリをフォークまたはダウンロードしよう</p>
             </div>
           </div>
         </div>
@@ -76,10 +78,15 @@
       </div>
     </div>
   </section>
+
+  <footer class="bg-dark text-white py-3">
+    <div class="container">
+      <p>&copy; 2023 OpenKitchen. All rights reserved.</p>
+    </div>
+  </footer>
 </template>
 
 <style scoped>
-
 h1 {
   font-weight: bold;
 }
@@ -98,7 +105,7 @@ header {
   border-bottom: rgba(0, 0, 0, 0) !important;
 }
 
-.card{
+.card {
   margin-bottom: 30px;
 }
 </style>
