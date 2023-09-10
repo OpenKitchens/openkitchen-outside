@@ -97,4 +97,8 @@ header {
   background-color: rgba(0, 0, 0, 0) !important;
   border-bottom: rgba(0, 0, 0, 0) !important;
 }
+
+.card{
+  margin-bottom: 30px;
+}
 </style>
