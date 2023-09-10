@@ -35,7 +35,7 @@
   </header>
 
   <!-- ヒーローセクション -->
-  <section id="hero" class="text-white text-center py-5">
+  <section class="text-white text-center py-5">
     <div class="container">
       <h1 class="display-4">OpenKitchen</h1>
       <p class="lead">GAFAから解放された高度な文化の循環圏</p>
@@ -51,7 +51,7 @@
             <img src="/image/lofi.jpg" class="card-img-top" alt="instance" height="230">
             <div class="card-body">
               <h5>1. GitHubからInstanceを取得</h5>
-              <p><a href="https://github.com/OpenKitchens/clientserver" target="_blank">ここ</a>からインスタンスのリポジトリをダウンロードしよう</p>
+              <p><a href="https://github.com/OpenKitchens/clientserver" target="_blank">ここ</a>からインスタンスのリポジトリをフォークまたはダウンロードしよう</p>
             </div>
           </div>
         </div>
@@ -79,9 +79,6 @@
 </template>
 
 <style scoped>
-#hero {
-  /*background-image: url("/image/vaporwave.png");*/
-}
 
 h1 {
   font-weight: bold;
