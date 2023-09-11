@@ -41,7 +41,7 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card">
-            <img src="/image/lofi.jpg" class="card-img-top" alt="instance" height="230">
+            <img src="/image/lofi.jpg" class="card-img-top" alt="instance">
             <div class="card-body">
               <h5>1. GitHubからInstanceを取得</h5>
               <p><a href="https://github.com/OpenKitchens/clientserver"
@@ -51,7 +51,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
-            <img src="/image/lofi2.png" class="card-img-top" alt="instance" height="230">
+            <img src="/image/lofi2.png" class="card-img-top" alt="instance">
             <div class="card-body">
               <h5>2. Instanceをデプロイ</h5>
               <p>Node.jsの環境デプロイをし、URLまたはIPアドレスをメモしてください</p>
@@ -60,7 +60,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
-            <img src="/image/computer.png" class="card-img-top" alt="instance" height="230">
+            <img src="/image/computer.png" class="card-img-top" alt="instance">
             <div class="card-body">
               <h5>3. OpenKitchenにサインイン</h5>
               <p><a href="https://openkitchen.vercel.app/signIn" target="_blank">ここ</a>でurlのformにメモしたURLを入力し設定を終えましょう
@@ -78,7 +78,7 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card">
-            <img src="/image/Authority.png" class="card-img-top" alt="instance" height="230">
+            <img src="/image/Authority.png" class="card-img-top" alt="instance">
             <div class="card-body">
               <h5>権力が一点集中しない</h5>
               <p>全ての情報は全て他人に依存しています。ユーザー自身がアカウント兼コミュニティーサーバーのinstanceをデプロイすることにより権力はユーザー自身に還元されます。</p>
@@ -87,7 +87,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
-            <img src="/image/good.png" class="card-img-top" alt="instance" height="230">
+            <img src="/image/good.png" class="card-img-top" alt="instance">
             <div class="card-body">
               <h5>Seasonと評価</h5>
               <p>ソーシャルサービスにシーズン制を導入することで一人のインフルエンサーがユーザーを独占することとマンネリ化を防ぎます。評価値は自分のサーバーの情報の多さで評価されます</p>
@@ -96,7 +96,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
-            <img src="/image/coin.jpeg" class="card-img-top" alt="instance" height="230">
+            <img src="/image/coin.jpeg" class="card-img-top" alt="instance">
             <div class="card-body">
               <h5>課金システムや広告がない</h5>
               <p>OpenKitchenの実態はユーザー同士の通信そのものであり、開発者はOpenKitchenのサーバー代がいらないのです。開発者はまだ子供で親にご飯を食べさせてもらえるので経済的に困っていません。</p>
