@@ -160,6 +160,7 @@ h5 {
 }
 
 h3 {
+  margin-top: 50px;
   margin-bottom: 50px;
 }
 
