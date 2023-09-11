@@ -40,7 +40,7 @@ fetch(localStorage.getItem('websocket'), {
   <div v-if="socketReady" class="holy-grail">
     <main class="holy-grail__main">
       <!-- Left sidebar -->
-      <aside class="holy-grail__left" style="overflow-y: scroll; height: 100%">
+      <aside class="holy-grail__left" style="overflow-y: scroll; height: calc(100vh - 20px)">
         <leftSideBar
           :myName="UI.myName"
           :myHash="UI.myHash"
