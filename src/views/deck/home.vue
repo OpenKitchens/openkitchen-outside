@@ -1,20 +1,20 @@
 <script setup>
-import leftSideBar from "@/components/modules/leftSideBar.vue";
-import mainContent from "@/components/modules/mainContent.vue";
-import { ref } from "vue";
+import leftSideBar from '@/components/modules/leftSideBar.vue'
+import mainContent from '@/components/modules/mainContent.vue'
+import { ref } from 'vue'
 
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 if (!localStorage.getItem('websocket')) {
-  const router = useRouter();
-  router.push('/about');
+  const router = useRouter()
+  router.push('/login')
 }
 
 // WebSocketの接続状態を追跡するref
-const socketReady = ref(false);
+const socketReady = ref(false)
 
 //UIの構成
-const UI = ref({});
+const UI = ref({})
 
 //client鯖と通信する用
 //@ts-ignore
@@ -25,16 +25,15 @@ fetch(localStorage.getItem('websocket'), {
   },
   body: JSON.stringify({ type: { renderingEngine: true } }) // POSTデータをJSON形式に変換して指定
 })
-  .then(response => response.json())
-  .then(data => {
-    UI.value = data;
+  .then((response) => response.json())
+  .then((data) => {
+    UI.value = data
     console.log(data)
     socketReady.value = true
   })
-  .catch(error => {
-    console.error('エラーが発生しました:', error);
-  });
-
+  .catch((error) => {
+    console.error('エラーが発生しました:', error)
+  })
 </script>
 
 <template>
@@ -127,13 +126,12 @@ fetch(localStorage.getItem('websocket'), {
   }
 }
 
-
 @media screen and (max-width: 480px) {
-  .holy-grail__main{
+  .holy-grail__main {
     margin-left: 5px;
     margin-right: 5px;
   }
-  .holy-grail__left{
+  .holy-grail__left {
     display: none;
   }
 }
