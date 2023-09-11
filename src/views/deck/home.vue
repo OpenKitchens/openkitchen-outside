@@ -65,6 +65,7 @@ fetch(localStorage.getItem('websocket'), {
 .holy-grail {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .holy-grail__main {
