@@ -32,10 +32,11 @@
     <div class="container title">
       <h1 class="display-4">OpenKitchen</h1>
       <p class="lead">GAFAから解放された高度な文化の循環圏</p>
+      <a href="#create" class="btn btn-light rounded-pill" style="margin-top: 20px; font-weight: bold;">アカウントを作成</a>
     </div>
   </section>
 
-  <section class="py-5">
+  <section class="py-5" id="create">
     <div class="container">
       <h3>アカウントを新規作成する方法</h3>
       <div class="row">
