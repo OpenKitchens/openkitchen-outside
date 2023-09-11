@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 
 if (!localStorage.getItem('websocket')) {
   const router = useRouter()
-  router.push('/login')
+  router.push('/about')
 }
 
 // WebSocketの接続状態を追跡するref
@@ -58,7 +58,7 @@ fetch(localStorage.getItem('websocket'), {
       </article>
 
       <!-- Right sidebar -->
-      <!--<nav class="holy-grail__right" style="overflow-y: scroll; height: calc(100vh - 50px)">-->
+      <!--<nav class="holy-grail__right" style="overflow-y: scroll; height: 100%">-->
       <nav class="holy-grail__right" style="overflow-y: scroll">
         <!--<rightSideBar />-->
       </nav>
@@ -71,7 +71,7 @@ fetch(localStorage.getItem('websocket'), {
 .holy-grail {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 50px);
 }
 
 .holy-grail__main {
