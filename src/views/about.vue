@@ -10,9 +10,8 @@
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav"
-        style="position: absolute;left:50vw;transform: translateX(-50%);width: 287px;">
-        <ul class="navbar-nav ml-auto">
+      <div class="collapse navbar-collapse" id="navbarNav" style="position: absolute;left:50vw;transform: translateX(-50%);width: 1000px;">
+        <ul class="navbar-nav ml-auto" style="position: absolute;left:50%;transform: translateX(-50%);background-color: #232323;border-radius: 100px;padding: 0 10px;border: solid 1px #444">
           <li class="nav-item">
             <a class="nav-link" href="#sikumi">仕組みについて</a>
           </li>
@@ -138,6 +137,7 @@
 .hero {
   background-image: url("/image/vaporwave.png");
   height: calc(100vh - 15px);
+  margin-bottom: 100px;
 }
 
 .hero::before {
